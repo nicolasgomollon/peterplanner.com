@@ -1,0 +1,106 @@
+# Prevent directory listings
+Options -Indexes
+
+# Follow symbolic links
+Options +FollowSymLinks
+
+# Disable implicit filename pattern match
+Options -MultiViews
+
+# Add additional MIME Types
+AddType application/vnd.apple.pkpass .pkpass
+AddType application/octet-stream .safariextz .ipa
+AddType text/cache-manifest .manifest
+AddType text/x-component .htc
+
+# Automatically add utf-8 charset to files
+<FilesMatch "\.(htm|html|php|asp|css|js)$">
+AddDefaultCharset UTF-8
+</FilesMatch>
+
+#
+# Reduce page size by compressing static data and save bandwidth
+#
+# ----------------------------------------------------------------------
+# Gzip compression
+# ----------------------------------------------------------------------
+#
+<IfModule mod_deflate.c>
+	# Force deflate for mangled headers developer.yahoo.com/blogs/ydn/posts/2010/12/pushing-beyond-gzipping/
+	<IfModule mod_setenvif.c>
+		<IfModule mod_headers.c>
+			SetEnvIfNoCase ^(Accept-EncodXng|X-cept-Encoding|X{15}|~{15}|-{15})$ ^((gzip|deflate)\s*,?\s*)+|[X~-]{4,13}$ HAVE_Accept-Encoding
+			RequestHeader append Accept-Encoding "gzip,deflate" env=HAVE_Accept-Encoding
+		</IfModule>
+	</IfModule>
+	
+	# Compress all output labeled with one of the following MIME-types
+	<IfModule mod_filter.c>
+		AddOutputFilterByType DEFLATE application/atom+xml application/javascript application/json application/rss+xml application/vnd.ms-fontobject application/x-font-ttf application/xhtml+xml application/xml font/opentype image/svg+xml image/x-icon text/css text/html text/plain text/x-component text/xml
+	</IfModule>
+</IfModule>
+
+################################################################
+
+# rewrite rules
+<IfModule mod_rewrite.c>
+
+# Enable rewrite rules
+RewriteEngine on
+RewriteBase /
+
+
+
+###
+## Standard Redirections
+###
+
+# Make note of URL scheme
+RewriteCond %{HTTPS} on
+RewriteRule ^(.*)$ - [env=scheme:https]
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ - [env=scheme:http]
+
+# Drop www
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ %{ENV:scheme}://%1%{REQUEST_URI} [R=301,L]
+
+###
+## Standard Redirections
+###
+
+
+
+###
+## HTTPS Redirection
+###
+
+# Force SSL (port 443)
+RewriteCond %{SERVER_PORT} 80
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+###
+## HTTPS Redirection
+###
+
+
+
+# Check for a PHP file.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} .*/([^.]+)$
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*?)/?$ $1.php
+
+# Check for an HTML file.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} .*/([^.]+)$
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*?)/?$ $1.html
+
+# active redirections
+#Redirect 301 /source /destination
+
+</IfModule>
+
