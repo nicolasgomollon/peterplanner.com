@@ -64,28 +64,110 @@ function getEnrolledClass(title)
 //Processing JSON Data and creating classes
 var masterlist = [];
 
-function addClassesToMasterList(jsondata)
-{
-	currentterm = jsondata.terms[0];
-	for (c in jsondata.courses)
-	{
-		if (jsondata.courses[c].classes != null)
-		{
-			if (jsondata.courses[c].grade == "")
-			{
-				if (jsondata.courses[c].classes.hasOwnProperty(currentterm))
-				{
-					masterlist.push({title: c, code: jsondata.courses[c].classes[currentterm][0].code, prof: jsondata.courses[c].classes[currentterm][0].instructor});
+function addClassesToMasterList(student) {
+	var yearTerm = student.terms[0];
+	for (var i = 0; i < student.blocks.length; i++) {
+		var block = student.blocks[i];
+		for (var j = 0; j < block.requirements.length; j++) {
+			var req = block.requirements[j];
+			for (var k = 0; k < req.options.length; k++) {
+				var option = req.options[k];
+				var course = student.courses[option];
+				var title = course.department + " " + course.number;
+				if (course.classes != null) {
+					var classes = course.classes[yearTerm];
+					if ((classes != undefined) && clearedPrereqs(course, student)) {
+						masterlist.push({title: title, code: classes[0].code, prof: classes[0].instructor});
+					}
 				}
 			}
 		}
 	}
 }
 
-//TODO: Prerequisite filtering
-function validatePrerequisite(c, prereqdata)
-{
-	//idk what prereqdata is going to be rn it's a few lists good luck future drew
+function cmpGrade(grA, grB) {
+	if ((grA.length == 0) && (grB.length == 0)) {
+		return 0;
+	} else if (grA.length == 0) {
+		return Number.NEGATIVE_INFINITY;
+	} else if (grB.length == 0) {
+		return Number.POSITIVE_INFINITY;
+	}
+	
+	var cmpGrA = grA;
+	cmpGrA = cmpGrA.replace("+", "");
+	cmpGrA = cmpGrA.replace("-", "");
+	cmpGrA = cmpGrA.toUpperCase();
+	
+	var cmpGrB = grB;
+	cmpGrB = cmpGrB.replace("+", "");
+	cmpGrB = cmpGrB.replace("-", "");
+	cmpGrB = cmpGrB.toUpperCase();
+	
+	var comparison = 0;
+	if (cmpGrA == cmpGrB) {
+		var grAplus = grA.includes("+");
+		var grAminus = grA.includes("-");
+		
+		var grBplus = grB.includes("+");
+		var grBminus = grB.includes("-");
+		
+		if (grAplus && !grBplus) {
+			comparison = -1;
+		} else if (!grAplus && grBplus) {
+			comparison = 1;
+		} else if (!grAminus && grBminus) {
+			comparison = -1;
+		} else if (grAminus && !grBminus) {
+			comparison = 1;
+		}
+	} else if (cmpGrA < cmpGrB) {
+		comparison = -1;
+	} else if (cmpGrA > cmpGrB) {
+		comparison = 1;
+	}
+	
+	return comparison;
+}
+
+function clearedPrereqs(course, student) {
+	var numPrereqs = course.prerequisites;
+	if (numPrereqs == null) {
+		numPrereqs = 0;
+	} else {
+		numPrereqs = numPrereqs.length;
+	}
+	for (var i = 0; i < numPrereqs; i++) {
+		var prereqsAND = course.prerequisites[i];
+		var satisfied = false;
+		for (var j = 0; j < prereqsAND.length; j++) {
+			var prereqOR = prereqsAND[j];
+			if (!satisfied) {
+				var splitPrrq = prereqOR.split("|");
+				var prereq = splitPrrq[0].replace(/\s/g , "");
+				satisfied = (student.taken[prereq] !== undefined);
+				if (!satisfied && splitPrrq[0].startsWith("NO ")) {
+					prereq = prereq.slice(2);
+					satisfied = !student.taken[prereq];
+				} else if (satisfied && (splitPrrq.length == 2)) {
+					var c = student.courses[prereq];
+					var grade = splitPrrq[1];
+					if ((c.grade.length != 0) && (grade.length != 0)) {
+						if (cmpGrade(c.grade, grade) > 0) {
+							satisfied = false;
+						}
+					}
+				}
+				if (satisfied) {
+					break;
+				}
+			}
+		}
+		if (!satisfied) {
+			return false;
+		}
+	}
+	return true;
 }
 
 var jsonText = "";
