@@ -90,6 +90,10 @@ function validatePrerequisite(c, prereqdata)
 	//idk what prereqdata is going to be rn it's a few lists good luck future drew
 }
 
-var master = parseJSON(getJSON('https://peterplanner.com/launch?studentID=XXXXXXXX&json=1'));
+var jsonText = "";
+if (studentID != null) {
+	jsonText = getJSON("https://peterplanner.com/launch?studentID=" + studentID + "&json=1");
+}
+var master = parseJSON(jsonText);
 addClassesToMasterList(master);
 console.log(masterlist);

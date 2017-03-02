@@ -21,6 +21,9 @@ p.blocktext
 	font-family: 'Arial', sans-serif;
 }
 </style>
+<script type="text/javascript">
+	var studentID = <?php echo isset($_GET['studentID']) ? "\"".$_GET['studentID']."\"" : "null" ?>;
+</script>
 <script src="classes.js"></script>
 <script type="text/javascript">
 	function switchClass(direction, title)
