@@ -9,8 +9,6 @@ function getJSON(url)
 
 function parseJSON(s)
 {
-	s = s.slice(5);
-	s = s.slice(0, -6);
 	return JSON.parse(s);
 }
 

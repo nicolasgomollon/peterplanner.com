@@ -11,7 +11,7 @@
 	$old_path = getcwd();
 	chdir("/var/www/golang/bin/");
 	
-	$outputJSON = $_GET['json'];
+	$outputJSON = isset($_GET['json']);
 	if (isset($_GET['cookie'])) {
 		$cookie = $_GET['cookie'];
 		$cookie = str_replace("!", "\!", $cookie);
@@ -28,7 +28,11 @@
 		die();
 	} else {
 		// TODO: Determine if output contains some error about cookies, and alert the user.
-		// TODO: Obtain clean JSON output from `peterplanner` script.
-		echo "<pre>$output</pre>";
+		if ($outputJSON) {
+			header("Content-Type: application/json");
+		} else {
+			header("Content-Type: text/plain");
+		}
+		echo $output;
 	}
 ?>
