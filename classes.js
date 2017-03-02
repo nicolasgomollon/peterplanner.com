@@ -73,9 +73,12 @@ function addClassesToMasterList(jsondata)
 	{
 		if (jsondata.courses[c].classes != null)
 		{
-			if (jsondata.courses[c].classes.hasOwnProperty(currentterm))
+			if (jsondata.courses[c].grade == "")
 			{
-				masterlist.push({title: c, code: jsondata.courses[c].classes[currentterm][0].code, prof: jsondata.courses[c].classes[currentterm][0].instructor});
+				if (jsondata.courses[c].classes.hasOwnProperty(currentterm))
+				{
+					masterlist.push({title: c, code: jsondata.courses[c].classes[currentterm][0].code, prof: jsondata.courses[c].classes[currentterm][0].instructor});
+				}
 			}
 		}
 	}
