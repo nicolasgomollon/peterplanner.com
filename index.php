@@ -10,6 +10,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
 	<script type="text/javascript">
 		var studentID = <?php echo isset($_GET['studentID']) ? "\"".$_GET['studentID']."\"" : "null" ?>;
+		function toggleSelected(element) {
+			event.preventDefault();
+			element.classList.toggle("selected");
+			return false;
+		}
 	</script>
 </head>
 

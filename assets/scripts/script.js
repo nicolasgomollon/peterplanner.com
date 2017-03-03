@@ -183,7 +183,7 @@ function htmlForCourse(course) {
 		var c = course.classes["2017-14"][j];
 		var timeStart = new Date(c.time.start);
 		var timeEnd = new Date(c.time.end);
-		courseHTML += '<a class="class" href="#">';
+		courseHTML += '<a id="' + c.code + '" class="class" href="#" onclick="return toggleSelected(this);">';
 		{
 			courseHTML += '<div class="code">' + c.code + '</div>';
 			courseHTML += '<div class="type">' + c.type + '</div>';

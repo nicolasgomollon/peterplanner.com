@@ -119,6 +119,12 @@ div.course>a.class:nth-of-type(even)>div:nth-child(even) {
 
 div.course>div.class:hover:nth-of-type(n)>div,
 div.course>a.class:hover:nth-of-type(n)>div {
+	background: #68a5fa;
+	color: #ffffff;
+}
+
+div.course>div.class.selected:nth-of-type(n)>div,
+div.course>a.class.selected:nth-of-type(n)>div {
 	background: #2f83fa;
 	color: #ffffff;
 }
