@@ -9,14 +9,15 @@ function dataFor(studentID) {
 	return JSON.parse(request.responseText);
 }
 
-function availableCoursesFor(student) {
+function blocksFor(student) {
 	if ((student.terms == null) || (student.terms == undefined)) {
 		return [];
 	}
-	var availableCourses = [];
+	var blocks = [];
 	var yearTerm = student.terms[0];
 	for (var i = 0; i < student.blocks.length; i++) {
 		var block = student.blocks[i];
+		var availableCourses = [];
 		for (var j = 0; j < block.requirements.length; j++) {
 			var req = block.requirements[j];
 			for (var k = 0; k < req.options.length; k++) {
@@ -31,8 +32,9 @@ function availableCoursesFor(student) {
 				}
 			}
 		}
+		blocks.push({title: block.title, courses: availableCourses})
 	}
-	return availableCourses;
+	return blocks;
 }
 
 function cmpGrade(grA, grB) {
@@ -157,59 +159,85 @@ function zeroPad(m) {
 	return ("00" + m).substr(-2);
 }
 
-function printCourses(courses) {
+function htmlForCourse(course) {
+	var courseHTML = '<div class="course">';
+	courseHTML += '<h1>'+ course.department + ' ' + course.number + ': ' + course.title + '</h1>';
+	var description = course.description;
+	if (description != undefined) {
+		courseHTML += '<p>' + course.description + '</p>';
+	}
+	courseHTML += '<div class="title">';
+	{
+		courseHTML += '<div class="code">Code</div>';
+		courseHTML += '<div class="type">Type</div>';
+		courseHTML += '<div class="sec">Sec</div>';
+		courseHTML += '<div class="instructor">Instructor</div>';
+		courseHTML += '<div class="days">Days</div>';
+		courseHTML += '<div class="time">Time</div>';
+		courseHTML += '<div class="place">Place</div>';
+	}
+	courseHTML += '</div>';
+	console.log(course);
+	console.log(course.classes);
+	for (var j = 0; j < course.classes["2017-14"].length; j++) {
+		var c = course.classes["2017-14"][j];
+		var timeStart = new Date(c.time.start);
+		var timeEnd = new Date(c.time.end);
+		courseHTML += '<a class="class" href="#">';
+		{
+			courseHTML += '<div class="code">' + c.code + '</div>';
+			courseHTML += '<div class="type">' + c.type + '</div>';
+			courseHTML += '<div class="sec">' + c.section + '</div>';
+			courseHTML += '<div class="instructor">' + c.instructor + '</div>';
+			courseHTML += '<div class="days">' + c.days.map(weekdays).join("") + '</div>';
+			courseHTML += '<div class="time">';
+			{
+				courseHTML += '<span class="start">' + twelveHours(timeStart.getUTCHours()) + ':' + zeroPad(timeStart.getUTCMinutes()) + '</span>';
+				courseHTML += '<span class="meridiem">' + meridiem(timeStart.getUTCHours()) + '</span>';
+				courseHTML += '<span class="sep">-</span>';
+				courseHTML += '<span class="end">' + twelveHours(timeEnd.getUTCHours()) + ':' + zeroPad(timeEnd.getUTCMinutes()) + '</span>';
+				courseHTML += '<span class="meridiem">' + meridiem(timeEnd.getUTCHours()) + '</span>';
+			}
+			courseHTML += '</div>';
+			courseHTML += '<div class="place">' + c.place + '</div>';
+		}
+		courseHTML += '</a>';
+	}
+	courseHTML += '</div>';
+	courseHTML += '<div class="separator"></div>';
+	return courseHTML;
+}
+
+function htmlForCourses(courses) {
 	var coursesHTML = "";
 	for (var i = 0; i < courses.length; i++) {
-		var course = courses[i];
-		coursesHTML += '<div class="course">';
-		coursesHTML += '<h1>'+ course.department + ' ' + course.number + ': ' + course.title + '</h1>';
-		var description = course.description;
-		if (description != undefined) {
-			coursesHTML += '<p>' + course.description + '</p>';
-		}
-		coursesHTML += '<div class="title">';
-		{
-			coursesHTML += '<div class="code">Code</div>';
-			coursesHTML += '<div class="type">Type</div>';
-			coursesHTML += '<div class="sec">Sec</div>';
-			coursesHTML += '<div class="instructor">Instructor</div>';
-			coursesHTML += '<div class="days">Days</div>';
-			coursesHTML += '<div class="time">Time</div>';
-			coursesHTML += '<div class="place">Place</div>';
-		}
-		coursesHTML += '</div>';
-		for (var j = 0; j < course.classes["2017-14"].length; j++) {
-			var c = course.classes["2017-14"][j];
-			var timeStart = new Date(c.time.start);
-			var timeEnd = new Date(c.time.end);
-			coursesHTML += '<a class="class" href="#">';
-			{
-				coursesHTML += '<div class="code">' + c.code + '</div>';
-				coursesHTML += '<div class="type">' + c.type + '</div>';
-				coursesHTML += '<div class="sec">' + c.section + '</div>';
-				coursesHTML += '<div class="instructor">' + c.instructor + '</div>';
-				coursesHTML += '<div class="days">' + c.days.map(weekdays).join("") + '</div>';
-				coursesHTML += '<div class="time">';
-				{
-					coursesHTML += '<span class="start">' + twelveHours(timeStart.getUTCHours()) + ':' + zeroPad(timeStart.getUTCMinutes()) + '</span>';
-					coursesHTML += '<span class="meridiem">' + meridiem(timeStart.getUTCHours()) + '</span>';
-					coursesHTML += '<span class="sep">-</span>';
-					coursesHTML += '<span class="end">' + twelveHours(timeEnd.getUTCHours()) + ':' + zeroPad(timeEnd.getUTCMinutes()) + '</span>';
-					coursesHTML += '<span class="meridiem">' + meridiem(timeEnd.getUTCHours()) + '</span>';
-				}
-				coursesHTML += '</div>';
-				coursesHTML += '<div class="place">' + c.place + '</div>';
-			}
-			coursesHTML += '</a>';
-		}
-		coursesHTML += '</div>';
-		if (i < (courses.length - 1)) {
-			coursesHTML += '<div class="separator"></div>';
-		}
+		coursesHTML += htmlForCourse(courses[i]);
 	}
-	document.getElementById("courses").innerHTML = coursesHTML;
+	return coursesHTML;
+}
+
+function htmlForBlock(block) {
+	var blockHTML = '<div class="block">';
+	blockHTML += '<h1>' + block.title + '</h1>';
+	blockHTML += '<div id="courses" class="courses">';
+	blockHTML += htmlForCourses(block.courses);
+	blockHTML += '</div>';
+	blockHTML += '</div>';
+	return blockHTML;
+}
+
+function htmlForBlocks(blocks) {
+	var blocksHTML = "";
+	for (var i = 0; i < blocks.length; i++) {
+		blocksHTML += htmlForBlock(blocks[i]);
+	}
+	return blocksHTML;
+}
+
+function printBlocks(blocks) {
+	document.getElementById("blocks").innerHTML = htmlForBlocks(blocks);
 }
 
 var student = dataFor(studentID);
-var courses = availableCoursesFor(student);
-printCourses(courses);
+var blocks = blocksFor(student);
+printBlocks(blocks);

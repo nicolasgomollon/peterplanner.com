@@ -14,7 +14,7 @@
 </head>
 
 <body>
-	<div id="courses" class="courses"></div>
+	<div id="blocks" class="blocks"></div>
 	<script type="text/javascript" src="assets/scripts/script.js"></script>
 </body>
 </html>

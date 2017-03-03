@@ -38,8 +38,28 @@ div.courses {
 	display: inline-block;
 }
 
+div.separator {
+	background: #040080;
+	height: 3pt;
+}
+
+div.blocks {
+	display: inline-block;
+}
+
+div.block:not(:last-child) {
+	margin-bottom: 20pt;
+}
+
+div.block>h1 {
+	padding: 3pt 6pt;
+	background: #040080;
+	color: #ffffff;
+	font-size: 16pt;
+}
+
 div.course {
-	width: 459pt;
+	width: 479pt;
 	font-size: 12pt;
 }
 
@@ -120,7 +140,7 @@ div.course>*>div.instructor {
 }
 
 div.course>*>div.days {
-	width: 40pt;
+	width: 60pt;
 }
 
 div.course>*>div.time {
@@ -148,9 +168,4 @@ div.course>*>div.time>span.sep {
 
 div.course>*>div.place {
 	width: 65pt;
-}
-
-div.separator {
-	background: #040080;
-	height: 3pt;
 }
