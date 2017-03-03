@@ -39,7 +39,7 @@ div.courses {
 }
 
 div.course {
-	width: 462pt;
+	width: 459pt;
 	font-size: 12pt;
 }
 
@@ -51,10 +51,8 @@ a.class {
 
 div.course>h1,
 div.course>p,
-div.course>div>div:first-of-type,
-div.course>div>div:nth-child(even),
-div.course>.class>div:first-of-type,
-div.course>.class>div:nth-child(even) {
+div.course>.title>div,
+div.course>.class>div {
 	padding: 0 3pt;
 }
 
@@ -97,6 +95,12 @@ div.course>a.class:nth-of-type(even) {
 div.course>div.class:nth-of-type(odd)>div:nth-child(even),
 div.course>a.class:nth-of-type(even)>div:nth-child(even) {
 	background: #ffffff;
+}
+
+div.course>div.class:hover:nth-of-type(n)>div,
+div.course>a.class:hover:nth-of-type(n)>div {
+	background: #2f83fa;
+	color: #ffffff;
 }
 
 div.course>*>div.code {

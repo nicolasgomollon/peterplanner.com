@@ -161,36 +161,46 @@ function printCourses(courses) {
 	var coursesHTML = "";
 	for (var i = 0; i < courses.length; i++) {
 		var course = courses[i];
-		coursesHTML += '<div class="course">\
-		<h1>'+ course.department + ' ' + course.number + ': ' + course.title + '</h1>';
+		coursesHTML += '<div class="course">';
+		coursesHTML += '<h1>'+ course.department + ' ' + course.number + ': ' + course.title + '</h1>';
 		var description = course.description;
 		if (description != undefined) {
 			coursesHTML += '<p>' + course.description + '</p>';
 		}
-		coursesHTML += '<div class="title">\
-			<div class="code">Code</div>\
-			<div class="type">Type</div>\
-			<div class="sec">Sec</div>\
-			<div class="instructor">Instructor</div>\
-			<div class="days">Days</div>\
-			<div class="time">Time</div>\
-			<div class="place">Place</div>\
-		</div>';
+		coursesHTML += '<div class="title">';
+		{
+			coursesHTML += '<div class="code">Code</div>';
+			coursesHTML += '<div class="type">Type</div>';
+			coursesHTML += '<div class="sec">Sec</div>';
+			coursesHTML += '<div class="instructor">Instructor</div>';
+			coursesHTML += '<div class="days">Days</div>';
+			coursesHTML += '<div class="time">Time</div>';
+			coursesHTML += '<div class="place">Place</div>';
+		}
+		coursesHTML += '</div>';
 		for (var j = 0; j < course.classes["2017-14"].length; j++) {
 			var c = course.classes["2017-14"][j];
 			var timeStart = new Date(c.time.start);
 			var timeEnd = new Date(c.time.end);
-			coursesHTML += '<a class="class" href="#">\
-			<div class="code">' + c.code + '</div>\
-			<div class="type">' + c.type + '</div>\
-			<div class="sec">' + c.section + '</div>\
-			<div class="instructor">' + c.instructor + '</div>\
-			<div class="days">' + c.days.map(weekdays).join("") + '</div>\
-			<div class="time">\
-				<span class="start">' + twelveHours(timeStart.getUTCHours()) + ':' + zeroPad(timeStart.getUTCMinutes()) + '</span><span class="meridiem">' + meridiem(timeStart.getUTCHours()) + '</span><span class="sep">-</span><span class="end">' + twelveHours(timeEnd.getUTCHours()) + ':' + zeroPad(timeEnd.getUTCMinutes()) + '</span><span class="meridiem">' + meridiem(timeEnd.getUTCHours()) + '</span>\
-			</div>\
-			<div class="place">' + c.place + '</div>\
-		</a>';
+			coursesHTML += '<a class="class" href="#">';
+			{
+				coursesHTML += '<div class="code">' + c.code + '</div>';
+				coursesHTML += '<div class="type">' + c.type + '</div>';
+				coursesHTML += '<div class="sec">' + c.section + '</div>';
+				coursesHTML += '<div class="instructor">' + c.instructor + '</div>';
+				coursesHTML += '<div class="days">' + c.days.map(weekdays).join("") + '</div>';
+				coursesHTML += '<div class="time">';
+				{
+					coursesHTML += '<span class="start">' + twelveHours(timeStart.getUTCHours()) + ':' + zeroPad(timeStart.getUTCMinutes()) + '</span>';
+					coursesHTML += '<span class="meridiem">' + meridiem(timeStart.getUTCHours()) + '</span>';
+					coursesHTML += '<span class="sep">-</span>';
+					coursesHTML += '<span class="end">' + twelveHours(timeEnd.getUTCHours()) + ':' + zeroPad(timeEnd.getUTCMinutes()) + '</span>';
+					coursesHTML += '<span class="meridiem">' + meridiem(timeEnd.getUTCHours()) + '</span>';
+				}
+				coursesHTML += '</div>';
+				coursesHTML += '<div class="place">' + c.place + '</div>';
+			}
+			coursesHTML += '</a>';
 		}
 		coursesHTML += '</div>';
 		if (i < (courses.length - 1)) {
