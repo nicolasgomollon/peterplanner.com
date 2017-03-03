@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>PeterPlanner</title>
+<style>
+body {
+	background-image:url(AldrichPark.png);
+}
+.button {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #0064a4;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 18px;
+  padding: 15px;
+  width: 180px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+</style>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+</head>
+
+<body>
+<div style="text-align:center;font-family:'Open Sans', 'Arial', sans-serif;font-size:72px;color:#022a5d;padding-top:120px">PeterPlanner</span>
+<div align="center"><img src="Peter.png" width="200" style="padding-top:30px"></div>
+<div align="center"><button class="button"><span>New User</span></button>&nbsp;&nbsp;&nbsp;<button class="button"><span>Returning User</span></button></div>
+</body>
+</html>
