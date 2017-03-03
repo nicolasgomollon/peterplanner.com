@@ -24,7 +24,7 @@ p.blocktext
 <script type="text/javascript">
 	var studentID = <?php echo isset($_GET['studentID']) ? "\"".$_GET['studentID']."\"" : "null" ?>;
 </script>
-<script src="classes.js"></script>
+<script src="assets/scripts/classes.js"></script>
 <script type="text/javascript">
 	function switchClass(direction, title)
 	{
@@ -64,7 +64,7 @@ p.blocktext
 </head>
 
 <body style="margin: 0px;padding: 0px">
-	<div width="100%" style="background-color: #0064A4; height:30px;" align="right"><img style="padding-top:5px;padding-right: 5px" src="info.png" width="20px"></div>
+	<div width="100%" style="background-color: #0064A4; height:30px;" align="right"><img style="padding-top:5px;padding-right: 5px" src="assets/images/info.png" width="20px"></div>
 	<div style="float:left;padding-right: 50px;padding-left:30px;border-right: 1px solid #000000;">
 	  <p style="font-size:32px;font-family: 'Open Sans', sans-serif;">Available Classes</p>
 		<div id="availcontent">Please Enable Javascript</div>
