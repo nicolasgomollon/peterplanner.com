@@ -99,6 +99,9 @@ RewriteCond %{REQUEST_FILENAME} .*/([^.]+)$
 RewriteCond %{REQUEST_FILENAME}.html -f
 RewriteRule ^(.*?)/?$ $1.html
 
+# Block .gitignore file from being accessed directly.
+RewriteRule ^.gitignore$ 404 [R=301,L]
+
 # active redirections
 #Redirect 301 /source /destination
 
