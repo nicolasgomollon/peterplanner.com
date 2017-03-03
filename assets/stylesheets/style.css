@@ -43,6 +43,20 @@ div.separator {
 	height: 3pt;
 }
 
+#cal {
+	display: inline-block;
+	position: relative;
+	width: calc(100% - 479pt);
+}
+
+#blocks {
+	position: absolute;
+	right: 0; top: 0;
+	width: 479pt;
+	height: 100%;
+	overflow: scroll;
+}
+
 div.blocks {
 	display: inline-block;
 }

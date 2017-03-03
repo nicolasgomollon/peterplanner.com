@@ -28,6 +28,10 @@ function blocksFor(student) {
 					var classes = course.classes[yearTerm];
 					if ((classes != undefined) && clearedPrereqs(course, student)) {
 						availableCourses.push(course);
+						for (var l = 0; l < classes.length; l++) {
+							var c = classes[l];
+							classesDict[c.code] = c;
+						}
 					}
 				}
 			}

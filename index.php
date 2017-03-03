@@ -6,20 +6,74 @@
 	<meta name="description" content="Peter Planner is a prerequisite tracker and scheduling tool for UCI students." />
 	<meta name="robots" content="index, follow" />
 	<link rel="stylesheet" type="text/css" href="assets/stylesheets/style.css">
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="https://antplanner.appspot.com/static/css/jquery.weekcalendar.css">
 	<!--[if IE]><script type="text/javascript" src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
 	<script type="text/javascript">
 		var studentID = <?php echo isset($_GET['studentID']) ? "\"".$_GET['studentID']."\"" : "null" ?>;
+		var classesDict = {};
 		function toggleSelected(element) {
 			event.preventDefault();
-			element.classList.toggle("selected");
+			var c = classesDict[element.id];
+			var isSelected = element.classList.toggle("selected");
+			if (isSelected) {
+				var timeStart = new Date(c.time.start);
+				var timeEnd = new Date(c.time.end);
+				$("#cal").weekCalendar("scrollToHour", timeStart.getUTCHours(), true);
+				for (var i = 0; i < c.days.length; i++) {
+					var day = c.days[i];
+					var calEvent = {
+						id: element.id + day,
+						groupId: element.id,
+						start: new Date(2012, 9, day, timeStart.getUTCHours(), timeStart.getUTCMinutes()),
+						end: new Date(2012, 9, day, timeEnd.getUTCHours(), timeEnd.getUTCMinutes()),
+						title: element.id
+					};
+					$("#cal").weekCalendar("updateEvent", calEvent);
+				}
+			} else {
+				for (var i = 0; i < c.days.length; i++) {
+					var day = c.days[i];
+					$("#cal").weekCalendar("removeEvent", element.id + day);
+				}
+			}
 			return false;
 		}
 	</script>
 </head>
 
 <body>
+	<div id="cal"></div>
 	<div id="blocks" class="blocks"></div>
 	<script type="text/javascript" src="assets/scripts/script.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+	<script src="https://antplanner.appspot.com/static/js/jquery.weekcalendar.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#cal").weekCalendar({
+				businessHours: {start: 6, end: 24, limitDisplay: true},
+				showHeader: false,
+				showColumnHeaderDate: false,
+				timeslotsPerHour: 3,
+				daysToShow:5,
+				readonly: true,
+				useShortDayNames: true,
+				allowCalEventOverlap: true,
+				overlapEventsSeparate: true,
+				buttons: false,
+				height: function($calendar){
+					return $(window).height();
+				},
+				draggable : function(calEvent, element) { return false; },
+				resizable : function(calEvent, element) { return false; },
+				eventClick : function(calEvent, element) {
+					toggleSelected(document.getElementById(calEvent.groupId));
+				}
+			});
+			$("#cal").weekCalendar("gotoWeek", new Date(2012, 9, 1));
+		});
+	</script>
 </body>
 </html>
