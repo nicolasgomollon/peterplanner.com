@@ -20,6 +20,13 @@ p.blocktext
 	font-weight: bold;
 	font-family: 'Arial', sans-serif;
 }
+.info
+{
+	padding-top: 5px;
+	padding-right: 5px;
+	width: 20px;
+	height: 20px;
+}
 </style>
 <script type="text/javascript">
 	var studentID = <?php echo isset($_GET['studentID']) ? "\"".$_GET['studentID']."\"" : "null" ?>;
@@ -64,7 +71,7 @@ p.blocktext
 </head>
 
 <body style="margin: 0px;padding: 0px">
-	<div width="100%" style="background-color: #0064A4; height:30px;" align="right"><img style="padding-top:5px;padding-right: 5px" src="assets/images/info.png" width="20px"></div>
+	<div width="100%" style="background-color: #0064A4; height:30px;" align="right"><img class="info" src="assets/vectors/info.svg"></div>
 	<div style="float:left;padding-right: 50px;padding-left:30px;border-right: 1px solid #000000;">
 	  <p style="font-size:32px;font-family: 'Open Sans', sans-serif;">Available Classes</p>
 		<div id="availcontent">Please Enable Javascript</div>
