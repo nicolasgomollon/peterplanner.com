@@ -22,13 +22,14 @@
 				var timeEnd = new Date(c.time.end);
 				$("#cal").weekCalendar("scrollToHour", timeStart.getUTCHours(), true);
 				for (var i = 0; i < c.days.length; i++) {
+					var title = c.course.department + " " + c.course.number + "<br />" + c.type;
 					var day = c.days[i];
 					var calEvent = {
 						id: element.id + day,
 						groupId: element.id,
 						start: new Date(2012, 9, day, timeStart.getUTCHours(), timeStart.getUTCMinutes()),
 						end: new Date(2012, 9, day, timeEnd.getUTCHours(), timeEnd.getUTCMinutes()),
-						title: element.id
+						title: title,
 					};
 					$("#cal").weekCalendar("updateEvent", calEvent);
 				}
@@ -54,6 +55,8 @@
 		$(document).ready(function() {
 			$("#cal").weekCalendar({
 				businessHours: {start: 6, end: 24, limitDisplay: true},
+				timeFormat: "h:ia",
+				timeSeparator: " - ",
 				showHeader: false,
 				showColumnHeaderDate: false,
 				timeslotsPerHour: 3,

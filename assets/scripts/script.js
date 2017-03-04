@@ -30,6 +30,7 @@ function blocksFor(student) {
 						availableCourses.push(course);
 						for (var l = 0; l < classes.length; l++) {
 							var c = classes[l];
+							c.course = course;
 							classesDict[c.code] = c;
 						}
 					}
@@ -148,11 +149,7 @@ function weekdays(day) {
 }
 
 function twelveHours(h) {
-	var hours = h;
-	if (hours > 12) {
-		hours -= 12;
-	}
-	return hours;
+	return h % 12;
 }
 
 function meridiem(h) {

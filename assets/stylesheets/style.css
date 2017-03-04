@@ -49,6 +49,14 @@ div.separator {
 	width: calc(100% - 479pt);
 }
 
+.wc-time {
+	font-size: 9pt;
+}
+
+.wc-title {
+	font-size: 10pt;
+}
+
 #blocks {
 	position: absolute;
 	right: 0; top: 0;
