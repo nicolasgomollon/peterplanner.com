@@ -11,6 +11,7 @@
 	<!--[if IE]><script type="text/javascript" src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
 	<script type="text/javascript">
+		var uid = <?php echo isset($_GET['uid']) ? "\"".$_GET['uid']."\"" : "null" ?>;
 		var studentID = <?php echo isset($_GET['studentID']) ? "\"".$_GET['studentID']."\"" : "null" ?>;
 		var classesDict = {};
 		function toggleSelected(element) {

@@ -1,8 +1,15 @@
-function dataFor(studentID) {
-	if ((studentID == null) || (studentID == undefined) || (studentID.length < 8)) {
-		return JSON.parse("{}");
+function dataFor(uid, studentID) {
+	var query = "";
+	if ((uid == null) || (uid == undefined) || (uid.length != 40)) {
+		if ((studentID == null) || (studentID == undefined) || (studentID.length < 8)) {
+			return JSON.parse("{}");
+		} else {
+			query = "?studentID=" + studentID + "&json=1";
+		}
+	} else {
+		query = "?uid=" + uid + "&json=1";
 	}
-	var url = "https://peterplanner.com/launch?studentID=" + studentID + "&json=1";
+	var url = "https://peterplanner.com/launch" + query;
 	var request = new XMLHttpRequest();
 	request.open("GET", url, false);
 	request.send(null);
@@ -239,6 +246,6 @@ function printBlocks(blocks) {
 	document.getElementById("blocks").innerHTML = htmlForBlocks(blocks);
 }
 
-var student = dataFor(studentID);
+var student = dataFor(uid, studentID);
 var blocks = blocksFor(student);
 printBlocks(blocks);
