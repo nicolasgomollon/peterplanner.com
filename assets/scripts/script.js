@@ -189,8 +189,6 @@ function htmlForCourse(course) {
 		courseHTML += '<div class="place">Place</div>';
 	}
 	courseHTML += '</div>';
-	console.log(course);
-	console.log(course.classes);
 	for (var j = 0; j < course.classes["2017-14"].length; j++) {
 		var c = course.classes["2017-14"][j];
 		var timeStart = new Date(c.time.start);
