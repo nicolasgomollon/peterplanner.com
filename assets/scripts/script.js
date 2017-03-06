@@ -1,11 +1,7 @@
-function dataFor(uid, studentID) {
+function dataFor(uid) {
 	var query = "";
 	if ((uid == null) || (uid == undefined) || (uid.length != 40)) {
-		if ((studentID == null) || (studentID == undefined) || (studentID.length < 8)) {
-			return JSON.parse("{}");
-		} else {
-			query = "?studentID=" + studentID + "&json=1";
-		}
+		return JSON.parse("{}");
 	} else {
 		query = "?uid=" + uid + "&json=1";
 	}
@@ -248,6 +244,6 @@ function printBlocks(blocks) {
 	document.getElementById("blocks").innerHTML = htmlForBlocks(blocks);
 }
 
-var student = dataFor(uid, studentID);
+var student = dataFor(uid);
 var blocks = blocksFor(student);
 printBlocks(blocks);

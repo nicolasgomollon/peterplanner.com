@@ -28,12 +28,14 @@
 	chdir($old_path);
 	
 	if (strpos($output, "No flags were specified.") !== false) {
-		header("Location: saveme");
+		header("Location: /saveme");
 		die();
 	} else if (isset($_GET['cookie'])) {
 		$result = json_decode($output, true);
 		$uid = $result["uid"];
-		header("Location: /?uid=$uid");
+		$days = 30 * 4;
+		setcookie("uid", $uid, time() + ($days * 24 * 60 * 60));
+		header("Location: /");
 		die();
 	} else {
 		// TODO: Determine if output contains some error about cookies, and alert the user.
