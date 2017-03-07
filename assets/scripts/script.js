@@ -158,11 +158,7 @@ function weekdays(day) {
 }
 
 function twelveHours(h) {
-	var hours = (h % 12);
-	if (hours == 0) {
-		hours = 12;
-	}
-	return hours;
+	return (h == 12) ? 12 : h%12;
 }
 
 function meridiem(h) {
