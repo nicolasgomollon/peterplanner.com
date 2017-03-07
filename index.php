@@ -32,7 +32,7 @@
 				var timeEnd = new Date(c.time.end);
 				$("#cal").weekCalendar("scrollToHour", timeStart.getUTCHours(), true);
 				for (var i = 0; i < c.days.length; i++) {
-					var title = c.course.department + " " + c.course.number + "<br />" + c.type + " (" + c.coursecode + ")";
+					var title = c.course.department + " " + c.course.number + "<br />" + c.type + " (" + c.code + ")";
 					var day = c.days[i];
 					var calEvent = {
 						id: element.id + day,
