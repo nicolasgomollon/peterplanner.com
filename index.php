@@ -43,7 +43,13 @@
 					};
 					$("#cal").weekCalendar("updateEvent", calEvent);
 				}
-				groupColorize();
+				var colorPair = getRandomColorPair();
+              $('.wc-cal-event').each(function(index, el) {
+                var c = $(el).data().calEvent
+                if( c.groupId.indexOf(courseCode) != -1 ) {
+                  colorEvent(el, colorPair);
+                }
+              });
 			} else {
 				for (var i = 0; i < c.days.length; i++) {
 					var day = c.days[i];
