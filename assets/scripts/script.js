@@ -21,20 +21,26 @@ function blocksFor(student) {
 	for (var i = 0; i < student.blocks.length; i++) {
 		var block = student.blocks[i];
 		var availableCourses = [];
-		for (var j = 0; j < block.requirements.length; j++) {
-			var req = block.requirements[j];
-			for (var k = 0; k < req.options.length; k++) {
-				var option = req.options[k];
-				var course = student.courses[option];
-				var title = course.department + " " + course.number;
-				if (course.classes != null) {
-					var classes = course.classes[yearTerm];
-					if ((classes != undefined) && clearedPrereqs(course, student)) {
-						availableCourses.push(course);
-						for (var l = 0; l < classes.length; l++) {
-							var c = classes[l];
-							c.course = course;
-							classesDict[c.code] = c;
+		for (var j = 0; j < block.rules.length; j++) {
+			var rule = block.rules[j];
+			for (var k = 0; k < rule.requirements.length; k++) {
+				var req = rule.requirements[k];
+				if (req.completed.length >= req.required) {
+					continue
+				}
+				for (var l = 0; l < req.options.length; l++) {
+					var option = req.options[l];
+					var course = student.courses[option];
+					var title = course.department + " " + course.number;
+					if (course.classes != null) {
+						var classes = course.classes[yearTerm];
+						if ((classes != undefined) && clearedPrereqs(course, student)) {
+							availableCourses.push(course);
+							for (var m = 0; m < classes.length; m++) {
+								var c = classes[m];
+								c.course = course;
+								classesDict[c.code] = c;
+							}
 						}
 					}
 				}
