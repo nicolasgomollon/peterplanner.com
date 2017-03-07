@@ -43,6 +43,7 @@
 					};
 					$("#cal").weekCalendar("updateEvent", calEvent);
 				}
+				groupColorize();
 			} else {
 				for (var i = 0; i < c.days.length; i++) {
 					var day = c.days[i];
@@ -58,6 +59,7 @@
 	<div id="cal"></div>
 	<div id="blocks" class="blocks"></div>
 	<script type="text/javascript" src="assets/scripts/script.js"></script>
+    <script type="text/javascript" src="assets/scripts/colors.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
 	<script src="https://antplanner.appspot.com/static/js/jquery.weekcalendar.js"></script>
