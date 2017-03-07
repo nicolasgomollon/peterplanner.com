@@ -46,7 +46,7 @@
 				var colorPair = getRandomColorPair();
               $('.wc-cal-event').each(function(index, el) {
                 var c = $(el).data().calEvent
-                if( c.groupId.indexOf(courseCode) != -1 ) {
+                if( c.groupId.indexOf(c.code) != -1 ) {
                   colorEvent(el, colorPair);
                 }
               });
