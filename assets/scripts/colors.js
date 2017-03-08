@@ -27,27 +27,17 @@ function getRandomColorPair() {
 
 }
 
-function colorEvent(el, colorPair) {
-	$(el).css({
+function colorEvent(element, colorPair) {
+	$(element).css({
 		'background-color': colorPair.color,
 		'border': '1px solid ' + colorPair.borderColor
 	});
-
-	$('.wc-time', el).css({
+	
+	$('.wc-time', element).css({
 		'background-color': colorPair.color,
 		'border-left': 'none',
 		'border-right': 'none',
 		'border-top': 'none',
 		'border-bottom': '1px solid ' + colorPair.borderColor
-	});
-}
-function groupColorize() {
-	var tracking = {};
-	$('.wc-cal-event').each(function(index, el) {
-	  var c = $(el).data().calEvent;
-	  if( !(c.groupId in tracking) ) {
-	    tracking[c.groupId] = getRandomColorPair();
-	  } 
-	  colorEvent(this, tracking[c.groupId])
 	});
 }

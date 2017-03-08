@@ -23,11 +23,13 @@
 	<script type="text/javascript">
 		var uid = <?php echo "\"$uid\""; ?>;
 		var classesDict = {};
+		var colorsDict = {};
 		function toggleSelected(element) {
 			event.preventDefault();
 			var c = classesDict[element.id];
 			var isSelected = element.classList.toggle("selected");
 			if (isSelected) {
+				var courseId = c.course.department + c.course.number;
 				var timeStart = new Date(c.time.start);
 				var timeEnd = new Date(c.time.end);
 				$("#cal").weekCalendar("scrollToHour", timeStart.getUTCHours(), true);
@@ -37,19 +39,24 @@
 					var calEvent = {
 						id: element.id + day,
 						groupId: element.id,
+						courseId: courseId,
 						start: new Date(2012, 9, day, timeStart.getUTCHours(), timeStart.getUTCMinutes()),
 						end: new Date(2012, 9, day, timeEnd.getUTCHours(), timeEnd.getUTCMinutes()),
 						title: title,
 					};
 					$("#cal").weekCalendar("updateEvent", calEvent);
 				}
-				var colorPair = getRandomColorPair();
-              $('.wc-cal-event').each(function(index, el) {
-                var c = $(el).data().calEvent
-                if( c.groupId.indexOf(c.code) != -1 ) {
-                  colorEvent(el, colorPair);
-                }
-              });
+				var colorPair = colorsDict[courseId];
+				if (colorPair == undefined) {
+					colorPair = getRandomColorPair();
+					colorsDict[courseId] = colorPair;
+				}
+				$(".wc-cal-event").each(function(index, e) {
+					var calEvent = $(e).data().calEvent;
+					if (calEvent.courseId == courseId) {
+						colorEvent(e, colorPair);
+					}
+				});
 			} else {
 				for (var i = 0; i < c.days.length; i++) {
 					var day = c.days[i];
@@ -65,7 +72,7 @@
 	<div id="cal"></div>
 	<div id="blocks" class="blocks"></div>
 	<script type="text/javascript" src="assets/scripts/script.js"></script>
-    <script type="text/javascript" src="assets/scripts/colors.js"></script>
+	<script type="text/javascript" src="assets/scripts/colors.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
 	<script src="https://antplanner.appspot.com/static/js/jquery.weekcalendar.js"></script>
