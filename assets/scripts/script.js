@@ -170,8 +170,12 @@ function zeroPad(m) {
 }
 
 function htmlForCourse(course) {
+	var title = course.title;
+	if (title.length == 0) {
+		title = course.stitle;
+	}
 	var courseHTML = '<div class="course">';
-	courseHTML += '<h1>'+ course.department + ' ' + course.number + ': ' + course.title + '</h1>';
+	courseHTML += '<h1>'+ course.department + ' ' + course.number + ': ' + title + '</h1>';
 	var description = course.description;
 	if (description != undefined) {
 		courseHTML += '<p>' + course.description + '</p>';
