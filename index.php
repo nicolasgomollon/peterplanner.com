@@ -23,7 +23,8 @@
 	<script type="text/javascript">
 		var uid = <?php echo "\"$uid\""; ?>;
 		var classesDict = {};
-		var colorsDict = {};
+		var courseColors = {};
+		var usedColors = {};
 		function toggleSelected(element) {
 			event.preventDefault();
 			var c = classesDict[element.id];
@@ -46,10 +47,15 @@
 					};
 					$("#cal").weekCalendar("updateEvent", calEvent);
 				}
-				var colorPair = colorsDict[courseId];
+				var colorPair = courseColors[courseId];
 				if (colorPair == undefined) {
-					colorPair = getRandomColorPair();
-					colorsDict[courseId] = colorPair;
+					var colorId = -1;
+					do {
+						colorPair = getRandomColorPair();
+						colorId = colorPair.id;
+					} while (usedColors[colorId] === true);
+					usedColors[colorId] = true;
+					courseColors[courseId] = colorPair;
 				}
 				$(".wc-cal-event").each(function(index, e) {
 					var calEvent = $(e).data().calEvent;
