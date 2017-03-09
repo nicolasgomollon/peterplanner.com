@@ -34,13 +34,44 @@ body {
 	line-height: 1.5em;
 }
 
-div.courses {
-	display: inline-block;
+nav {
+	position: relative;
+	background: #0064a4;
 }
 
-div.separator {
-	background: #040080;
-	height: 3pt;
+nav>a {
+	display: inline-block;
+	color: #ffffff;
+	font-weight: 500;
+	text-decoration: none;
+}
+
+nav>a:not(:last-child) {
+	padding: 6pt 12pt;
+	margin: 0 4pt;
+}
+
+nav>a:first-child {
+	margin-left: 10pt;
+}
+
+nav>a:not(:last-child):hover {
+	background-color: #1d3c6d;
+}
+
+nav>a.info {
+	position: absolute;
+	right: 0;
+	height: 100%;
+	padding: 0 10px;
+}
+
+nav>a.info>img {
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 20px;
+	height: 20px;
 }
 
 #cal {
@@ -62,6 +93,7 @@ div.separator {
 	right: 0; top: 0;
 	width: 479pt;
 	height: 100%;
+	padding-top: 30pt;
 	overflow: scroll;
 }
 
@@ -78,6 +110,15 @@ div.block>h1 {
 	background: #040080;
 	color: #ffffff;
 	font-size: 16pt;
+}
+
+div.courses {
+	display: inline-block;
+}
+
+div.separator {
+	background: #040080;
+	height: 3pt;
 }
 
 div.course {
@@ -214,25 +255,4 @@ div.course>*>div.time>span.sep {
 
 div.course>*>div.place {
 	width: 65pt;
-}
-
-.menu-link-text {
-	color:white;
-	font-weight: 600;
-	font-family:Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, "sans-serif";
-}
-
-.menu-link:link, .menu-link:active, .menu-link:visited {
-	color: white;
-	text-decoration: none;
-}
-
-td.menuitem {
-	padding-left: 15px;
-	padding-right: 15px
-}
-
-td.menuitem:hover {
-	background-color: #1d3c6d;
-	vertical-align: middle;
 }
