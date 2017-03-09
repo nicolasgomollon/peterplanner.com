@@ -215,3 +215,24 @@ div.course>*>div.time>span.sep {
 div.course>*>div.place {
 	width: 65pt;
 }
+
+.menu-link-text {
+	color:white;
+	font-weight: 600;
+	font-family:Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, "sans-serif";
+}
+
+.menu-link:link, .menu-link:active, .menu-link:visited {
+	color: white;
+	text-decoration: none;
+}
+
+td.menuitem {
+	padding-left: 15px;
+	padding-right: 15px
+}
+
+td.menuitem:hover {
+	background-color: #1d3c6d;
+	vertical-align: middle;
+}

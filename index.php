@@ -75,8 +75,27 @@
 </head>
 
 <body>
+	<div width="100%" style="background-color: #0064A4; height:50px;">
+	<table width="100%" height="50">
+	<tr>
+		<td class="menuitem" align="center" height="34" width="75">
+			<span class="menu-link-text"><a href="/home.html" class="menu-link">Home</a></span>
+		</td>
+		<td class="menuitem" align="center" height="34" width="75">
+			<span class="menu-link-text"><a href="/saveme.html" class="menu-link">Instructions</a></span>
+		</td>
+		<td class="menuitem" align="center" height="34" width="75">
+			<span class="menu-link-text"><a href="javascript:alert('This will be some export feature')" class="menu-link">Export</a></span>
+		</td>
+		<td class="menuitem" align="center" height="34" width="75">
+			<span class="menu-link-text"><a href="javascript:alert('This will be some sign out function')" class="menu-link">Sign Out</a></span>
+		</td>
+		<td align="right" style="padding-top:8px;padding-right: 25px"><img src="assets/vectors/info.svg" width="22px"></td>
+	</tr>
+	</table>
+	</div>
 	<div id="cal"></div>
-	<div id="blocks" class="blocks"></div>
+	<div id="blocks" class="blocks" style="padding-top:50px"></div>
 	<script type="text/javascript" src="assets/scripts/script.js"></script>
 	<script type="text/javascript" src="assets/scripts/colors.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
