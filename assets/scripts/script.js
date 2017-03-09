@@ -175,11 +175,37 @@ function htmlForCourse(course) {
 		title = course.stitle;
 	}
 	var courseHTML = '<div class="course">';
-	courseHTML += '<h1>'+ course.department + ' ' + course.number + ': ' + title + '</h1>';
-	var description = course.description;
-	if (description != undefined) {
-		courseHTML += '<p>' + course.description + '</p>';
+	courseHTML += '<div class="info">';
+	{
+		courseHTML += '<h1>' + course.department + ' ' + course.number + ': ' + title + '</h1>';
+		var description = course.description;
+		if (description != undefined) {
+			courseHTML += '<p>' + course.description + '</p>';
+		}
+		var quarters = ["Fall", "Winter", "Spring"];
+		var offered = [];
+		for (var i = 0; i < quarters.length; i++) {
+			var quarter = quarters[i];
+			var q = quarter.substr(0, 1);
+			var years = course.offered[q];
+			if (years != undefined) {
+				offered.push('<b>' + quarter + '</b> (<strong>' + years.join('</strong>, <strong>') + '</strong>)');
+			}
+		}
+		courseHTML += '<h2><em>Offered:</em> ' + offered.join(", ") + '</h2>';
+		if ((course.requiredby != null) && (course.requiredby != undefined)) {
+			var required = [];
+			for (var i = 0; i < course.requiredby.length; i++) {
+				var cGrp = course.requiredby[i];
+				if (typeof cGrp !== "object") { break; }
+				required.push('<b>' + cGrp.department + '</b> <strong>' + cGrp.numbers.join('</strong>, <strong>') + '</strong>');
+			}
+			if (required.length > 0) {
+				courseHTML += '<h2><em>Required By:</em> ' + required.join(", ") + '</h2>';
+			}
+		}
 	}
+	courseHTML += '</div>';
 	courseHTML += '<div class="title">';
 	{
 		courseHTML += '<div class="code">Code</div>';

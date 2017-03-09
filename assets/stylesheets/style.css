@@ -91,20 +91,38 @@ a.class {
 	text-decoration: none;
 }
 
-div.course>h1,
-div.course>p,
+div.course>div.info>*,
 div.course>.title>div,
 div.course>.class>div {
 	padding: 0 3pt;
 }
 
-div.course>h1 {
+div.course>div.info>*:last-child {
+	padding-bottom: 4pt;
+}
+
+div.course>div.info>h1 {
 	background: #fff0ff;
 	font-size: 14pt;
 }
 
-div.course>p {
-	padding-bottom: 3pt;
+div.course>div.info>h2 {
+	background: #fff0ff;
+	font-size: 10pt;
+	font-weight: 300;
+	line-height: 1em;
+	padding-top: 4pt;
+}
+
+div.course>div.info>h2>b {
+	font-weight: 700;
+}
+
+div.course>div.info>h2>strong {
+	font-weight: 500;
+}
+
+div.course>div.info>p {
 	background: #fff0ff;
 	font-size: 10pt;
 	line-height: 1.2em;
