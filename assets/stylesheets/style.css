@@ -98,7 +98,7 @@ div.course>.class>div {
 }
 
 div.course>div.info>*:last-child {
-	padding-bottom: 4pt;
+	padding-bottom: 3pt;
 }
 
 div.course>div.info>h1 {
@@ -110,8 +110,8 @@ div.course>div.info>h2 {
 	background: #fff0ff;
 	font-size: 10pt;
 	font-weight: 300;
-	line-height: 1em;
-	padding-top: 4pt;
+	line-height: 1.3em;
+	padding-top: 2pt;
 }
 
 div.course>div.info>h2>b {
