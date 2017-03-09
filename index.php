@@ -79,10 +79,10 @@
 	<table width="100%" height="50">
 	<tr>
 		<td class="menuitem" align="center" height="34" width="75">
-			<span class="menu-link-text"><a href="/home.html" class="menu-link">Home</a></span>
+			<span class="menu-link-text"><a href="/home" class="menu-link">Home</a></span>
 		</td>
 		<td class="menuitem" align="center" height="34" width="75">
-			<span class="menu-link-text"><a href="/saveme.html" class="menu-link">Instructions</a></span>
+			<span class="menu-link-text"><a href="/saveme" class="menu-link">Instructions</a></span>
 		</td>
 		<td class="menuitem" align="center" height="34" width="75">
 			<span class="menu-link-text"><a href="javascript:alert('This will be some export feature')" class="menu-link">Export</a></span>
