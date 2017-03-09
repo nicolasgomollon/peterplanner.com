@@ -74,10 +74,8 @@ nav>a.info>img {
 	height: 20px;
 }
 
-#cal {
-	display: inline-block;
-	position: relative;
-	width: calc(100% - 479pt);
+section {
+	display: flex;
 }
 
 .wc-time {
@@ -89,16 +87,8 @@ nav>a.info>img {
 }
 
 #blocks {
-	position: absolute;
-	right: 0; top: 0;
-	width: 479pt;
-	height: 100%;
-	padding-top: 30pt;
+	height: 100vh;
 	overflow: scroll;
-}
-
-div.blocks {
-	display: inline-block;
 }
 
 div.block:not(:last-child) {

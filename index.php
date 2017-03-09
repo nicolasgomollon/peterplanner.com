@@ -82,8 +82,10 @@
 		<a href="#" onclick="event.preventDefault();">Sign Out</a>
 		<a class="info" href="#" onclick="event.preventDefault();"><img src="assets/vectors/info.svg"></a>
 	</nav>
-	<div id="cal"></div>
-	<div id="blocks" class="blocks"></div>
+	<section>
+		<div id="cal"></div>
+		<div><div id="blocks"></div></div>
+	</section>
 	<script type="text/javascript" src="assets/scripts/script.js"></script>
 	<script type="text/javascript" src="assets/scripts/colors.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
