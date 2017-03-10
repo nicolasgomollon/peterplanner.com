@@ -21,6 +21,7 @@ function blocksFor(student) {
 	for (var i = 0; i < student.blocks.length; i++) {
 		var block = student.blocks[i];
 		var availableCourses = [];
+		var remainingCourses = [];
 		for (var j = 0; j < block.rules.length; j++) {
 			var rule = block.rules[j];
 			for (var k = 0; k < rule.requirements.length; k++) {
@@ -42,11 +43,14 @@ function blocksFor(student) {
 								classesDict[c.code] = c;
 							}
 						}
+						else if (classes != undefined) {
+							remainingCourses.push(course);
+						}
 					}
 				}
 			}
 		}
-		blocks.push({title: block.title, courses: availableCourses})
+		blocks.push({title: block.title, courses: availableCourses, remaining: remainingCourses})
 	}
 	return blocks;
 }
@@ -136,6 +140,16 @@ function clearedPrereqs(course, student) {
 	return true;
 }
 
+function remainingHelper() {
+	var remainingClasses = [];
+	for (var i = 0; i<blocks.length; i++) {
+		for (var j = 0; j<blocks[i].remaining.length; j++) {
+			remainingClasses.push(blocks[i].remaining[j].department+blocks[i].remaining[j].number);
+		}
+	}
+	return remainingClasses;
+}
+
 function weekdays(day) {
 	switch (day) {
 	case 0:
@@ -195,10 +209,23 @@ function htmlForCourse(course) {
 		courseHTML += '<h2><em>Offered:</em> ' + offered.join(", ") + '</h2>';
 		if ((course.requiredby != null) && (course.requiredby != undefined)) {
 			var required = [];
+			console.log(remainingHelper());
 			for (var i = 0; i < course.requiredby.length; i++) {
 				var cGrp = course.requiredby[i];
 				if (typeof(cGrp) !== "object") { break; }
-				required.push('<b>' + cGrp.department + '</b> <strong>' + cGrp.numbers.join('</strong>, <strong>') + '</strong>');
+				var preReqforNumbers = [];//Only considers classes that you will take
+				for (var j = 0; j < cGrp.numbers.length; j++) {
+					if (remainingHelper().indexOf((cGrp.department+cGrp.numbers[j])) != -1) {
+						preReqforNumbers.push(cGrp.numbers[j]);
+					}
+					else {
+						console.log(cGrp.department+cGrp.numbers[j]+' wasnt in there');
+					}
+				}
+				console.log(preReqforNumbers);
+				if (preReqforNumbers.length != 0) {
+					required.push('<b>' + cGrp.department + '</b> <strong>' + preReqforNumbers.join('</strong>, <strong>') + '</strong>');
+				}
 			}
 			if (required.length > 0) {
 				courseHTML += '<h2><em>Required By:</em> ' + required.join(", ") + '</h2>';
