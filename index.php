@@ -22,11 +22,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
 	<script type="text/javascript">
 		var uid = <?php echo "\"$uid\""; ?>;
+		var selectedClasses = {};
 		var classesDict = {};
 		var courseColors = {};
 		var usedColors = {};
 		function toggleSelected(element) {
-			event.preventDefault();
+			if (event !== undefined) {
+				event.preventDefault();
+			}
 			var c = classesDict[element.id];
 			var days = 0;
 			if (c.days != null) {
@@ -34,11 +37,14 @@
 			}
 			var isSelected = element.classList.toggle("selected");
 			if (isSelected) {
+				selectedClasses[element.id] = true;
 				if (days > 0) {
 					var courseId = c.course.department + c.course.number;
 					var timeStart = new Date(c.time.start);
 					var timeEnd = new Date(c.time.end);
-					$("#cal").weekCalendar("scrollToHour", timeStart.getUTCHours(), true);
+					if ((event !== undefined) && (event.type != "DOMContentLoaded")) {
+						$("#cal").weekCalendar("scrollToHour", timeStart.getUTCHours(), true);
+					}
 					for (var i = 0; i < days; i++) {
 						var title = c.course.department + " " + c.course.number + "<br />" + c.type + " " + c.section + " (" + c.code + ")";
 						var day = c.days[i];
@@ -70,11 +76,13 @@
 					});
 				}
 			} else {
+				delete selectedClasses[element.id];
 				for (var i = 0; i < days; i++) {
 					var day = c.days[i];
 					$("#cal").weekCalendar("removeEvent", element.id + day);
 				}
 			}
+			save(uid, selectedClasses);
 			return false;
 		}
 	</script>
@@ -122,6 +130,25 @@
 				}
 			});
 			$("#cal").weekCalendar("gotoWeek", new Date(2012, 9, 1));
+			var stored = get(uid);
+			if (stored != null) {
+				selectedClasses = stored;
+			}
+			var earliestHour = Number.POSITIVE_INFINITY;
+			for (var cID in selectedClasses) {
+				var c = classesDict[cID];
+				if (c.days != null) {
+					var timeStart = new Date(c.time.start);
+					var hour = timeStart.getUTCHours();
+					if (hour < earliestHour) {
+						earliestHour = hour;
+					}
+				}
+				toggleSelected(document.getElementById(cID));
+			}
+			if (earliestHour < Number.POSITIVE_INFINITY) {
+				$("#cal").weekCalendar("scrollToHour", earliestHour, true);
+			}
 		});
 	</script>
 </body>

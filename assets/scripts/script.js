@@ -197,7 +197,7 @@ function htmlForCourse(course) {
 			var required = [];
 			for (var i = 0; i < course.requiredby.length; i++) {
 				var cGrp = course.requiredby[i];
-				if (typeof cGrp !== "object") { break; }
+				if (typeof(cGrp) !== "object") { break; }
 				required.push('<b>' + cGrp.department + '</b> <strong>' + cGrp.numbers.join('</strong>, <strong>') + '</strong>');
 			}
 			if (required.length > 0) {
@@ -287,6 +287,70 @@ function htmlForBlocks(blocks) {
 
 function printBlocks(blocks) {
 	document.getElementById("blocks").innerHTML = htmlForBlocks(blocks);
+}
+
+//
+// Cookie code adapted from:
+// http://www.quirksmode.org/js/cookies.html#script
+//
+
+function createCookie(name, value, days) {
+	var expires = "";
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+		expires = "; expires=" + date.toGMTString();
+	}
+	document.cookie = name + "=" + value + expires + "; path=/";
+}
+
+function readCookie(name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for (var i = 0; i < ca.length; i++) {
+		var c = ca[i];
+		while (c.charAt(0) == ' ') {
+			c = c.substring(1, c.length);
+		}
+		if (c.indexOf(nameEQ) == 0) {
+			return c.substring(nameEQ.length, c.length);
+		}
+	}
+	return null;
+}
+
+function eraseCookie(name) {
+	createCookie(name, "", -1);
+}
+
+function save(key, value) {
+	value = JSON.stringify(value);
+	if (typeof(Storage) !== "undefined") {
+		// Local storage is available.
+		localStorage.setItem(key, value);
+	} else {
+		// Resort to using cookies.
+		value = window.btoa(value);
+		createCookie(key, value, 30 * 4);
+	}
+}
+
+function get(key) {
+	var value = null;
+	if (typeof(Storage) !== "undefined") {
+		// Local storage is available.
+		value = localStorage.getItem(key);
+	} else {
+		// Resort to using cookies.
+		value = readCookie(key);
+		if (value != null) {
+			value = window.atob(value);
+		}
+	}
+	if (value != null) {
+		value = JSON.parse(value);
+	}
+	return value;
 }
 
 var student = dataFor(uid);
