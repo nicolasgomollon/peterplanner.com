@@ -12,6 +12,8 @@ function dataFor(uid) {
 	return JSON.parse(request.responseText);
 }
 
+var courseOptions = {};
+
 function blocksFor(student) {
 	if ((student.terms == null) || (student.terms == undefined)) {
 		return [];
@@ -21,7 +23,6 @@ function blocksFor(student) {
 	for (var i = 0; i < student.blocks.length; i++) {
 		var block = student.blocks[i];
 		var availableCourses = [];
-		var remainingCourses = [];
 		for (var j = 0; j < block.rules.length; j++) {
 			var rule = block.rules[j];
 			for (var k = 0; k < rule.requirements.length; k++) {
@@ -32,7 +33,7 @@ function blocksFor(student) {
 				for (var l = 0; l < req.options.length; l++) {
 					var option = req.options[l];
 					var course = student.courses[option];
-					var title = course.department + " " + course.number;
+					courseOptions[course.department + course.number] = true;
 					if (course.classes != null) {
 						var classes = course.classes[yearTerm];
 						if ((classes != undefined) && clearedPrereqs(course, student)) {
@@ -43,14 +44,11 @@ function blocksFor(student) {
 								classesDict[c.code] = c;
 							}
 						}
-						else if (classes != undefined) {
-							remainingCourses.push(course);
-						}
 					}
 				}
 			}
 		}
-		blocks.push({title: block.title, courses: availableCourses, remaining: remainingCourses})
+		blocks.push({title: block.title, courses: availableCourses});
 	}
 	return blocks;
 }
@@ -140,16 +138,6 @@ function clearedPrereqs(course, student) {
 	return true;
 }
 
-function remainingHelper() {
-	var remainingClasses = [];
-	for (var i = 0; i<blocks.length; i++) {
-		for (var j = 0; j<blocks[i].remaining.length; j++) {
-			remainingClasses.push(blocks[i].remaining[j].department+blocks[i].remaining[j].number);
-		}
-	}
-	return remainingClasses;
-}
-
 function weekdays(day) {
 	switch (day) {
 	case 0:
@@ -209,22 +197,18 @@ function htmlForCourse(course) {
 		courseHTML += '<h2><em>Offered:</em> ' + offered.join(", ") + '</h2>';
 		if ((course.requiredby != null) && (course.requiredby != undefined)) {
 			var required = [];
-			console.log(remainingHelper());
 			for (var i = 0; i < course.requiredby.length; i++) {
 				var cGrp = course.requiredby[i];
 				if (typeof(cGrp) !== "object") { break; }
-				var preReqforNumbers = [];//Only considers classes that you will take
+				var preReqForNumbers = [];
 				for (var j = 0; j < cGrp.numbers.length; j++) {
-					if (remainingHelper().indexOf((cGrp.department+cGrp.numbers[j])) != -1) {
-						preReqforNumbers.push(cGrp.numbers[j]);
-					}
-					else {
-						console.log(cGrp.department+cGrp.numbers[j]+' wasnt in there');
+					var key = cGrp.department + cGrp.numbers[j];
+					if (courseOptions[key] === true) {
+						preReqForNumbers.push(cGrp.numbers[j]);
 					}
 				}
-				console.log(preReqforNumbers);
-				if (preReqforNumbers.length != 0) {
-					required.push('<b>' + cGrp.department + '</b> <strong>' + preReqforNumbers.join('</strong>, <strong>') + '</strong>');
+				if (preReqForNumbers.length > 0) {
+					required.push('<b>' + cGrp.department + '</b> <strong>' + preReqForNumbers.join('</strong>, <strong>') + '</strong>');
 				}
 			}
 			if (required.length > 0) {
