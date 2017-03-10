@@ -79,6 +79,11 @@ section {
 	display: flex;
 }
 
+.wc-header {
+	border: 0 !important;
+	border-bottom: 1pt solid #aaaaaa !important;
+}
+
 .wc-time {
 	font-size: 9pt;
 }
