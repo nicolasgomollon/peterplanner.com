@@ -252,3 +252,7 @@ div.course>*>div.time>span.sep {
 div.course>*>div.place {
 	width: 65pt;
 }
+
+.center {
+	text-align: center;
+}

@@ -28,43 +28,49 @@
 		function toggleSelected(element) {
 			event.preventDefault();
 			var c = classesDict[element.id];
+			var days = 0;
+			if (c.days != null) {
+				days = c.days.length;
+			}
 			var isSelected = element.classList.toggle("selected");
 			if (isSelected) {
-				var courseId = c.course.department + c.course.number;
-				var timeStart = new Date(c.time.start);
-				var timeEnd = new Date(c.time.end);
-				$("#cal").weekCalendar("scrollToHour", timeStart.getUTCHours(), true);
-				for (var i = 0; i < c.days.length; i++) {
-					var title = c.course.department + " " + c.course.number + "<br />" + c.type + " " + c.section + " (" + c.code + ")";
-					var day = c.days[i];
-					var calEvent = {
-						id: element.id + day,
-						groupId: element.id,
-						courseId: courseId,
-						start: new Date(2012, 9, day, timeStart.getUTCHours(), timeStart.getUTCMinutes()),
-						end: new Date(2012, 9, day, timeEnd.getUTCHours(), timeEnd.getUTCMinutes()),
-						title: title,
-					};
-					$("#cal").weekCalendar("updateEvent", calEvent);
-				}
-				var colorPair = courseColors[courseId];
-				if (colorPair == undefined) {
-					var colorId = -1;
-					do {
-						colorPair = getRandomColorPair();
-						colorId = colorPair.id;
-					} while (usedColors[colorId] === true);
-					usedColors[colorId] = true;
-					courseColors[courseId] = colorPair;
-				}
-				$(".wc-cal-event").each(function(index, e) {
-					var calEvent = $(e).data().calEvent;
-					if (calEvent.courseId == courseId) {
-						colorEvent(e, colorPair);
+				if (days > 0) {
+					var courseId = c.course.department + c.course.number;
+					var timeStart = new Date(c.time.start);
+					var timeEnd = new Date(c.time.end);
+					$("#cal").weekCalendar("scrollToHour", timeStart.getUTCHours(), true);
+					for (var i = 0; i < days; i++) {
+						var title = c.course.department + " " + c.course.number + "<br />" + c.type + " " + c.section + " (" + c.code + ")";
+						var day = c.days[i];
+						var calEvent = {
+							id: element.id + day,
+							groupId: element.id,
+							courseId: courseId,
+							start: new Date(2012, 9, day, timeStart.getUTCHours(), timeStart.getUTCMinutes()),
+							end: new Date(2012, 9, day, timeEnd.getUTCHours(), timeEnd.getUTCMinutes()),
+							title: title,
+						};
+						$("#cal").weekCalendar("updateEvent", calEvent);
 					}
-				});
+					var colorPair = courseColors[courseId];
+					if (colorPair == undefined) {
+						var colorId = -1;
+						do {
+							colorPair = getRandomColorPair();
+							colorId = colorPair.id;
+						} while (usedColors[colorId] === true);
+						usedColors[colorId] = true;
+						courseColors[courseId] = colorPair;
+					}
+					$(".wc-cal-event").each(function(index, e) {
+						var calEvent = $(e).data().calEvent;
+						if (calEvent.courseId == courseId) {
+							colorEvent(e, colorPair);
+						}
+					});
+				}
 			} else {
-				for (var i = 0; i < c.days.length; i++) {
+				for (var i = 0; i < days; i++) {
 					var day = c.days[i];
 					$("#cal").weekCalendar("removeEvent", element.id + day);
 				}

@@ -227,14 +227,27 @@ function htmlForCourse(course) {
 			courseHTML += '<div class="type">' + c.type + '</div>';
 			courseHTML += '<div class="sec">' + c.section + '</div>';
 			courseHTML += '<div class="instructor">' + c.instructor + '</div>';
-			courseHTML += '<div class="days">' + c.days.map(weekdays).join("") + '</div>';
+			if (c.days != null) {
+				courseHTML += '<div class="days">';
+				courseHTML += c.days.map(weekdays).join("");
+			} else {
+				courseHTML += '<div class="days center">';
+				courseHTML += '-';
+			}
+			courseHTML += '</div>';
 			courseHTML += '<div class="time">';
-			{
+			if (c.days != null) {
 				courseHTML += '<span class="start">' + twelveHours(timeStart.getUTCHours()) + ':' + zeroPad(timeStart.getUTCMinutes()) + '</span>';
 				courseHTML += '<span class="meridiem">' + meridiem(timeStart.getUTCHours()) + '</span>';
 				courseHTML += '<span class="sep">-</span>';
 				courseHTML += '<span class="end">' + twelveHours(timeEnd.getUTCHours()) + ':' + zeroPad(timeEnd.getUTCMinutes()) + '</span>';
 				courseHTML += '<span class="meridiem">' + meridiem(timeEnd.getUTCHours()) + '</span>';
+			} else {
+				courseHTML += '<span class="start"></span>';
+				courseHTML += '<span class="meridiem"></span>';
+				courseHTML += '<span class="sep">-</span>';
+				courseHTML += '<span class="end"></span>';
+				courseHTML += '<span class="meridiem"></span>';
 			}
 			courseHTML += '</div>';
 			courseHTML += '<div class="place">' + c.place + '</div>';
