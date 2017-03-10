@@ -37,6 +37,7 @@ body {
 nav {
 	position: relative;
 	background: #0064a4;
+	height: 30pt;
 }
 
 nav>a {
@@ -87,7 +88,7 @@ section {
 }
 
 #blocks {
-	height: 100vh;
+	height: calc(100vh - 30pt);
 	overflow: scroll;
 }
 

@@ -107,7 +107,7 @@
 				overlapEventsSeparate: true,
 				buttons: false,
 				height: function($calendar){
-					return $(window).height();
+					return $("#blocks").height();
 				},
 				draggable : function(calEvent, element) { return false; },
 				resizable : function(calEvent, element) { return false; },
