@@ -327,6 +327,112 @@ div.course>*>div.place {
 	width: 65pt;
 }
 
+.home {
+	background-image: url(../images/aldrich-park.jpg);
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.home h1 {
+	margin-top: 100pt;
+	color: #022a5d;
+	text-align: center;
+	font-weight: 300;
+	font-size: 50pt;
+	line-height: 1em;
+}
+
+.home .label {
+	position: absolute;
+	display: inline-block;
+	font-style: italic;
+	font-size: 18pt;
+	line-height: 1em;
+	vertical-align: super;
+	padding-left: 5pt;
+}
+
+.home .peter {
+	margin: 45pt 0;
+	width: 250px;
+	height: 100px;
+}
+
+.home .button {
+	display: inline-block;
+	border-radius: 6pt;
+	background-color: #0064a4;
+	border: none;
+	color: #ffffff;
+	text-decoration: none;
+	text-align: center;
+	font-weight: 500;
+	font-size: 14pt;
+	line-height: 1em;
+	padding: 12pt 0;
+	width: 140pt;
+	transition: all 0.5s;
+	margin: 0 25pt;
+}
+
+.home .button span {
+	cursor: pointer;
+	display: inline-block;
+	position: relative;
+	transition: 0.5s;
+}
+
+.home .button span:after {
+	content: '\00bb';
+	position: absolute;
+	opacity: 0;
+	top: 0;
+	right: -18pt;
+	transition: 0.5s;
+}
+
+.home .button:hover span {
+	padding-right: 18pt;
+}
+
+.home .button:hover span:after {
+	opacity: 1;
+	right: 0;
+}
+
+.github-corner svg {
+	position: absolute;
+	top: 0; right: 0;
+	border: 0;
+	fill: #151513;
+	color: #bceaff;
+}
+
+.github-corner:hover .octo-arm {
+	animation: octocat-wave 560ms ease-in-out;
+}
+
+@keyframes octocat-wave {
+	0%, 100% {
+		transform: rotate(0);
+	}
+	20%, 60% {
+		transform: rotate(-25deg);
+	}
+	40%, 80% {
+		transform: rotate(10deg);
+	}
+}
+
+@media (max-width: 500px) {
+	.github-corner:hover .octo-arm {
+		animation: none;
+	}
+	.github-corner .octo-arm {
+		animation: octocat-wave 560ms ease-in-out;
+	}
+}
+
 .center {
 	text-align: center;
 }
