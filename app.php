@@ -22,8 +22,8 @@
 	<meta name="description" content="PeterPlanner is a course prerequisite tracker and scheduling tool for UCI students." />
 	<meta name="robots" content="index, follow" />
 	<link rel="stylesheet" type="text/css" href="assets/stylesheets/style.css">
-	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/smoothness/jquery-ui.css">
-	<link rel="stylesheet" type="text/css" href="https://antplanner.appspot.com/static/css/jquery.weekcalendar.css">
+	<link rel="stylesheet" type="text/css" href="assets/stylesheets/jquery-ui-1.12.1.min.css">
+	<link rel="stylesheet" type="text/css" href="assets/stylesheets/jquery-weekcalendar.css">
 	<!--[if IE]><script type="text/javascript" src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
 	<script type="text/javascript">
@@ -109,9 +109,9 @@
 	</section>
 	<script type="text/javascript" src="assets/scripts/script.js"></script>
 	<script type="text/javascript" src="assets/scripts/colors.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
-	<script src="https://antplanner.appspot.com/static/js/jquery.weekcalendar.js"></script>
+	<script type="text/javascript" src="assets/scripts/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="assets/scripts/jquery-ui-1.12.1.min.js"></script>
+	<script type="text/javascript" src="assets/scripts/jquery-weekcalendar.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$("#cal").weekCalendar({
