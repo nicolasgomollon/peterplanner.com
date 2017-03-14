@@ -7,6 +7,12 @@
 			die();
 		}
 	}
+	$action = isset($_GET["action"]) ? strtolower($_GET["action"]) : "";
+	if ($action == "logout") {
+		setcookie("uid", null, -1);
+		header("Location: /");
+		die();
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -93,7 +99,7 @@
 		<a href="/">Home</a>
 		<a href="/saveme">Instructions</a>
 		<a href="#" onclick="event.preventDefault();">Export</a>
-		<a href="#" onclick="event.preventDefault();">Sign Out</a>
+		<a href="/app?action=logout">Log Out</a>
 		<a class="info" href="#" onclick="event.preventDefault();"><img src="assets/vectors/info.svg"></a>
 	</nav>
 	<section>
