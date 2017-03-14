@@ -146,7 +146,7 @@ div.rule>div.box {
 }
 
 div.rule.completed>div.box {
-	background-color: #a3cb6a;
+	background-color: #ffffff;
 	border: 1pt solid #228b22;
 	
 	-webkit-box-shadow: inset 0 0 7pt #228b22;
@@ -161,7 +161,7 @@ div.rule.completed>div.box:after {
 }
 
 div.rule.incomplete>div.box {
-	background-color: #fa8072;
+	background-color: #ffffff;
 	border: 1pt solid #b8524d;
 	
 	-webkit-box-shadow: inset 0 0 7pt #cd5b56;
