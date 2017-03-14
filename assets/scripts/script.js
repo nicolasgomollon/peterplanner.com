@@ -402,6 +402,7 @@ function htmlForStudent(student) {
 }
 
 function printStudent(student) {
+	document.getElementById("user").innerHTML = student.name;
 	document.getElementById("blocks").innerHTML = htmlForStudent(student);
 }
 

@@ -100,6 +100,7 @@
 		<a href="/saveme">Instructions</a>
 		<a href="#" onclick="event.preventDefault();">Export</a>
 		<a href="/app?action=logout">Log Out</a>
+		<span id="user"></span>
 		<a class="info" href="#" onclick="event.preventDefault();"><img src="assets/vectors/info.svg"></a>
 	</nav>
 	<section>

@@ -40,7 +40,7 @@ nav {
 	height: 30pt;
 }
 
-nav>a {
+nav>* {
 	display: inline-block;
 	color: #ffffff;
 	font-weight: 500;
@@ -58,6 +58,14 @@ nav>a:first-child {
 
 nav>a:not(:last-child):hover {
 	background-color: #1d3c6d;
+}
+
+nav>span {
+	cursor: default;
+	position: absolute;
+	top: 50%; right: 0;
+	transform: translateY(-50%);
+	margin-right: 45px;
 }
 
 nav>a.info {
