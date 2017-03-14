@@ -18,8 +18,8 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<title>Peter Planner</title>
-	<meta name="description" content="Peter Planner is a prerequisite tracker and scheduling tool for UCI students." />
+	<title>PeterPlanner</title>
+	<meta name="description" content="PeterPlanner is a course prerequisite tracker and scheduling tool for UCI students." />
 	<meta name="robots" content="index, follow" />
 	<link rel="stylesheet" type="text/css" href="assets/stylesheets/style.css">
 	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/smoothness/jquery-ui.css">
