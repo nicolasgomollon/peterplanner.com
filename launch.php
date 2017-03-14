@@ -35,7 +35,7 @@
 		$uid = $result["uid"];
 		$days = 30 * 4;
 		setcookie("uid", $uid, time() + ($days * 24 * 60 * 60));
-		header("Location: /");
+		header("Location: /app");
 		die();
 	} else {
 		// TODO: Determine if output contains some error about cookies, and alert the user.

@@ -90,7 +90,7 @@
 
 <body>
 	<nav>
-		<a href="/home">Home</a>
+		<a href="/">Home</a>
 		<a href="/saveme">Instructions</a>
 		<a href="#" onclick="event.preventDefault();">Export</a>
 		<a href="#" onclick="event.preventDefault();">Sign Out</a>
