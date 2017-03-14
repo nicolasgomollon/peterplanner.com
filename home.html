@@ -3,70 +3,73 @@
 <head>
 <meta charset="UTF-8">
 <title>PeterPlanner</title>
-<style>
+<style type="text/css">
 body {
-  background-image:url(assets/images/aldrich-park.jpg);
-  background-size: cover;
-  background-repeat: no-repeat;
-  font-family: system, -apple-system, -apple-system-font, BlinkMacSystemFont, "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-  font-weight: 300;
+	background-image:url(assets/images/aldrich-park.jpg);
+	background-size: cover;
+	background-repeat: no-repeat;
+	font-family: system, -apple-system, -apple-system-font, BlinkMacSystemFont, "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+	font-weight: 300;
 }
 
 h1 {
-  text-align: center;
-  font-weight: 300;
-  font-size: 50pt;
-  color: #022a5d;
-  margin-top: 100pt;
+	text-align: center;
+	font-weight: 300;
+	font-size: 50pt;
+	color: #022a5d;
+	margin-top: 100pt;
 }
 
 .peter {
-  margin-top: 5pt;
-  margin-bottom: 45pt;
-  width: 250px;
-  height: 100px;
+	margin-top: 5pt;
+	margin-bottom: 45pt;
+	width: 250px;
+	height: 100px;
 }
 
 .button {
-  display: inline-block;
-  border-radius: 6pt;
-  background-color: #0064a4;
-  border: none;
-  color: #ffffff;
-  text-decoration: none;
-  text-align: center;
-  font-size: 14pt;
-  padding: 10pt 0;
-  width: 140pt;
-  transition: all 0.5s;
-  margin: 0 25pt;
+	display: inline-block;
+	border-radius: 6pt;
+	background-color: #0064a4;
+	border: none;
+	color: #ffffff;
+	text-decoration: none;
+	text-align: center;
+	font-size: 14pt;
+	padding: 10pt 0;
+	width: 140pt;
+	transition: all 0.5s;
+	margin: 0 25pt;
 }
 
 .button span {
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
+	cursor: pointer;
+	display: inline-block;
+	position: relative;
+	transition: 0.5s;
 }
 
 .button span:after {
-  content: '\00bb';
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -20px;
-  transition: 0.5s;
+	content: '\00bb';
+	position: absolute;
+	opacity: 0;
+	top: 0;
+	right: -20px;
+	transition: 0.5s;
 }
 
 .button:hover span {
-  padding-right: 18pt;
+	padding-right: 18pt;
 }
 
 .button:hover span:after {
-  opacity: 1;
-  right: 0;
+	opacity: 1;
+	right: 0;
 }
-.beta {
+
+.label {
+	position: absolute;
+	display: inline-block;
 	font-style: italic;
 	font-size: 18pt;
 	vertical-align: super;
@@ -75,8 +78,8 @@ h1 {
 </head>
 
 <body>
-	<h1>PeterPlanner<span class="beta"> beta</span></h1>
-<div align="center"><img class="peter" src="assets/vectors/peter.svg"></div>
-<div align="center"><a class="button" href="/"><span>Get Started</span></a></div>
+	<h1>PeterPlanner<div class="label">beta</div></h1>
+	<div align="center"><img class="peter" src="assets/vectors/peter.svg"></div>
+	<div align="center"><a class="button" href="/"><span>Get Started</span></a></div>
 </body>
 </html>
