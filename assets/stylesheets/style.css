@@ -117,6 +117,80 @@ div.separator {
 	height: 3pt;
 }
 
+div.rule {
+	position: relative;
+	border-bottom: 1pt solid #e0e0e0;
+}
+
+div.rule>* {
+	font-size: 12pt;
+}
+
+div.rule>div.box {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	
+	margin: 0 6pt;
+	width: 14pt; height: 14pt;
+	
+	-webkit-border-radius: 4pt;
+	-moz-border-radius: 4pt;
+	-ms-border-radius: 4pt;
+	-o-border-radius: 4pt;
+	border-radius: 4pt;
+	
+	font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+	text-align: center;
+	line-height: 1.2em;
+}
+
+div.rule.completed>div.box {
+	background-color: #a3cb6a;
+	border: 1pt solid #228b22;
+	
+	-webkit-box-shadow: inset 0 0 7pt #228b22;
+	-moz-box-shadow: inset 0 0 7pt #228b22;
+	-ms-box-shadow: inset 0 0 7pt #228b22;
+	-o-box-shadow: inset 0 0 7pt #228b22;
+	box-shadow: inset 0 0 7pt #228b22;
+}
+
+div.rule.completed>div.box:after {
+	content: "✓";
+}
+
+div.rule.incomplete>div.box {
+	background-color: #fa8072;
+	border: 1pt solid #b8524d;
+	
+	-webkit-box-shadow: inset 0 0 7pt #cd5b56;
+	-moz-box-shadow: inset 0 0 7pt #cd5b56;
+	-ms-box-shadow: inset 0 0 7pt #cd5b56;
+	-o-box-shadow: inset 0 0 7pt #cd5b56;
+	box-shadow: inset 0 0 7pt #cd5b56;
+}
+
+div.rule>h1 {
+	display: inline-block;
+	padding: 3pt;
+	padding-left: 26pt;
+	font-weight: 500;
+}
+
+div.rule>h2 {
+	display: inline-block;
+	font-weight: 300;
+}
+
+div.rule.completed {
+	background: #a3cb6a;
+}
+
+div.rule.incomplete {
+	background: #f08080;
+}
+
 div.course {
 	width: 479pt;
 	font-size: 12pt;

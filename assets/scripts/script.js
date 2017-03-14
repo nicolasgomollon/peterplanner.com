@@ -14,15 +14,13 @@ function dataFor(uid) {
 
 var courseOptions = {};
 
-function blocksFor(student) {
+function processStudent(student) {
 	if ((student.terms == null) || (student.terms == undefined)) {
 		return [];
 	}
-	var blocks = [];
 	var yearTerm = student.terms[0];
 	for (var i = 0; i < student.blocks.length; i++) {
 		var block = student.blocks[i];
-		var availableCourses = [];
 		for (var j = 0; j < block.rules.length; j++) {
 			var rule = block.rules[j];
 			for (var k = 0; k < rule.requirements.length; k++) {
@@ -36,8 +34,8 @@ function blocksFor(student) {
 					courseOptions[course.department + course.number] = true;
 					if (course.classes != null) {
 						var classes = course.classes[yearTerm];
-						if ((classes != undefined) && clearedPrereqs(course, student)) {
-							availableCourses.push(course);
+						var unsatisfiedPrereqs = clearedPrereqs(course, student);
+						if ((classes != undefined) && (unsatisfiedPrereqs.length == 0)) {
 							for (var m = 0; m < classes.length; m++) {
 								var c = classes[m];
 								c.course = course;
@@ -48,9 +46,7 @@ function blocksFor(student) {
 				}
 			}
 		}
-		blocks.push({title: block.title, courses: availableCourses});
 	}
-	return blocks;
 }
 
 function cmpGrade(grA, grB) {
@@ -105,6 +101,7 @@ function clearedPrereqs(course, student) {
 	} else {
 		numPrereqs = numPrereqs.length;
 	}
+	var unsatisfiedPrereqs = [];
 	for (var i = 0; i < numPrereqs; i++) {
 		var prereqsAND = course.prerequisites[i];
 		var satisfied = false;
@@ -132,10 +129,10 @@ function clearedPrereqs(course, student) {
 			}
 		}
 		if (!satisfied) {
-			return false;
+			unsatisfiedPrereqs.push(prereqsAND);
 		}
 	}
-	return true;
+	return unsatisfiedPrereqs;
 }
 
 function weekdays(day) {
@@ -171,18 +168,23 @@ function zeroPad(m) {
 	return ("00" + m).substr(-2);
 }
 
-function htmlForCourse(course) {
+function htmlForCourse(student, course) {
 	var title = course.title;
 	if (title.length == 0) {
 		title = course.stitle;
 	}
+	var yearTerm = student.terms[0];
+	var classes = course.classes[yearTerm];
+	var unsatisfiedPrereqs = clearedPrereqs(course, student);
 	var courseHTML = '<div class="course">';
 	courseHTML += '<div class="info">';
 	{
 		courseHTML += '<h1>' + course.department + ' ' + course.number + ': ' + title + '</h1>';
-		var description = course.description;
-		if (description != undefined) {
-			courseHTML += '<p>' + course.description + '</p>';
+		if ((classes != undefined) && (unsatisfiedPrereqs.length == 0)) {
+			var description = course.description;
+			if (description != undefined) {
+				courseHTML += '<p>' + course.description + '</p>';
+			}
 		}
 		var quarters = ["Fall", "Winter", "Spring"];
 		var offered = [];
@@ -215,89 +217,192 @@ function htmlForCourse(course) {
 				courseHTML += '<h2><em>Required By:</em> ' + required.join(", ") + '</h2>';
 			}
 		}
-	}
-	courseHTML += '</div>';
-	courseHTML += '<div class="title">';
-	{
-		courseHTML += '<div class="code">Code</div>';
-		courseHTML += '<div class="type">Type</div>';
-		courseHTML += '<div class="sec">Sec</div>';
-		courseHTML += '<div class="instructor">Instructor</div>';
-		courseHTML += '<div class="days">Days</div>';
-		courseHTML += '<div class="time">Time</div>';
-		courseHTML += '<div class="place">Place</div>';
-	}
-	courseHTML += '</div>';
-	for (var j = 0; j < course.classes["2017-14"].length; j++) {
-		var c = course.classes["2017-14"][j];
-		var timeStart = new Date(c.time.start);
-		var timeEnd = new Date(c.time.end);
-		courseHTML += '<a id="' + c.code + '" class="class" href="#" onclick="return toggleSelected(this);">';
-		{
-			courseHTML += '<div class="code">' + c.code + '</div>';
-			courseHTML += '<div class="type">' + c.type + '</div>';
-			courseHTML += '<div class="sec">' + c.section + '</div>';
-			courseHTML += '<div class="instructor">' + c.instructor + '</div>';
-			if (c.days != null) {
-				courseHTML += '<div class="days">';
-				courseHTML += c.days.map(weekdays).join("");
-			} else {
-				courseHTML += '<div class="days center">';
-				courseHTML += '-';
+		if (unsatisfiedPrereqs.length > 0) {
+			var re = /(.*) (.*)/;
+			var uPrereqsAND = [];
+			for (var i = 0; i < unsatisfiedPrereqs.length; i++) {
+				var uPrereqsOR = [];
+				var prereqsOR = unsatisfiedPrereqs[i];
+				for (var j = 0; j < prereqsOR.length; j++) {
+					var prereq = prereqsOR[j];
+					var splitPrrq = prereq.split("|");
+					prereq = splitPrrq[0];
+					var prrqParts = re.exec(prereq);
+					var dept = prrqParts[1];
+					dept = dept.replace(/\s/g, "");
+					var num = prrqParts[2];
+					var grade = "";
+					if (splitPrrq.length == 2) {
+						grade = ' <em>(min grade = ' + splitPrrq[1] + ')</em>';
+					}
+					uPrereqsOR.push('<b>' + dept + '</b> <strong>' + num + '</strong>' + grade);
+				}
+				uPrereqsAND.push(uPrereqsOR.join(' or '));
 			}
-			courseHTML += '</div>';
-			courseHTML += '<div class="time">';
-			if (c.days != null) {
-				courseHTML += '<span class="start">' + twelveHours(timeStart.getUTCHours()) + ':' + zeroPad(timeStart.getUTCMinutes()) + '</span>';
-				courseHTML += '<span class="meridiem">' + meridiem(timeStart.getUTCHours()) + '</span>';
-				courseHTML += '<span class="sep">-</span>';
-				courseHTML += '<span class="end">' + twelveHours(timeEnd.getUTCHours()) + ':' + zeroPad(timeEnd.getUTCMinutes()) + '</span>';
-				courseHTML += '<span class="meridiem">' + meridiem(timeEnd.getUTCHours()) + '</span>';
+			courseHTML += '<h2><em>Still Need:</em> ';
+			if (uPrereqsAND.length > 1) {
+				courseHTML += '(' + uPrereqsAND.join(') <b>and</b> (') + ')';
 			} else {
-				courseHTML += '<span class="start"></span>';
-				courseHTML += '<span class="meridiem"></span>';
-				courseHTML += '<span class="sep">-</span>';
-				courseHTML += '<span class="end"></span>';
-				courseHTML += '<span class="meridiem"></span>';
+				courseHTML += uPrereqsAND.join('');
 			}
-			courseHTML += '</div>';
-			courseHTML += '<div class="place">' + c.place + '</div>';
+			courseHTML += '</h2>';
 		}
-		courseHTML += '</a>';
+	}
+	courseHTML += '</div>';
+	if ((classes != undefined) && (unsatisfiedPrereqs.length == 0)) {
+		courseHTML += '<div class="title">';
+		{
+			courseHTML += '<div class="code">Code</div>';
+			courseHTML += '<div class="type">Type</div>';
+			courseHTML += '<div class="sec">Sec</div>';
+			courseHTML += '<div class="instructor">Instructor</div>';
+			courseHTML += '<div class="days">Days</div>';
+			courseHTML += '<div class="time">Time</div>';
+			courseHTML += '<div class="place">Place</div>';
+		}
+		courseHTML += '</div>';
+		for (var i = 0; i < classes.length; i++) {
+			var c = classes[i];
+			c.course = course;
+			classesDict[c.code] = c;
+			var timeStart = new Date(c.time.start);
+			var timeEnd = new Date(c.time.end);
+			courseHTML += '<a id="' + c.code + '" class="class" href="#" onclick="return toggleSelected(this);">';
+			{
+				courseHTML += '<div class="code">' + c.code + '</div>';
+				courseHTML += '<div class="type">' + c.type + '</div>';
+				courseHTML += '<div class="sec">' + c.section + '</div>';
+				courseHTML += '<div class="instructor">' + c.instructor + '</div>';
+				if (c.days != null) {
+					courseHTML += '<div class="days">';
+					courseHTML += c.days.map(weekdays).join("");
+				} else {
+					courseHTML += '<div class="days center">';
+					courseHTML += '-';
+				}
+				courseHTML += '</div>';
+				courseHTML += '<div class="time">';
+				if (c.days != null) {
+					courseHTML += '<span class="start">' + twelveHours(timeStart.getUTCHours()) + ':' + zeroPad(timeStart.getUTCMinutes()) + '</span>';
+					courseHTML += '<span class="meridiem">' + meridiem(timeStart.getUTCHours()) + '</span>';
+					courseHTML += '<span class="sep">-</span>';
+					courseHTML += '<span class="end">' + twelveHours(timeEnd.getUTCHours()) + ':' + zeroPad(timeEnd.getUTCMinutes()) + '</span>';
+					courseHTML += '<span class="meridiem">' + meridiem(timeEnd.getUTCHours()) + '</span>';
+				} else {
+					courseHTML += '<span class="start"></span>';
+					courseHTML += '<span class="meridiem"></span>';
+					courseHTML += '<span class="sep">-</span>';
+					courseHTML += '<span class="end"></span>';
+					courseHTML += '<span class="meridiem"></span>';
+				}
+				courseHTML += '</div>';
+				courseHTML += '<div class="place">' + c.place + '</div>';
+			}
+			courseHTML += '</a>';
+		}
 	}
 	courseHTML += '</div>';
 	courseHTML += '<div class="separator"></div>';
 	return courseHTML;
 }
 
-function htmlForCourses(courses) {
-	var coursesHTML = "";
-	for (var i = 0; i < courses.length; i++) {
-		coursesHTML += htmlForCourse(courses[i]);
+function htmlForRequirement(student, req) {
+	var reqHTML = "";
+	for (var i = 0; i < req.options.length; i++) {
+		var option = req.options[i];
+		var course = student.courses[option];
+		var satisfied = (student.taken[course.department + course.number] !== undefined);
+		if (satisfied) {
+			continue;
+		}
+		courseOptions[course.department + course.number] = true;
+		if (course.classes != null) {
+			reqHTML += htmlForCourse(student, course);
+		}
 	}
-	return coursesHTML;
+	return reqHTML;
 }
 
-function htmlForBlock(block) {
+function htmlForRequirements(student, requirements) {
+	var requirementsHTML = "";
+	for (var i = 0; i < requirements.length; i++) {
+		var req = requirements[i];
+		requirementsHTML += htmlForRequirement(student, req);
+	}
+	return requirementsHTML;
+}
+
+function htmlForRule(student, rule) {
+	var completed = 0;
+	for (var i = 0; i < rule.requirements.length; i++) {
+		var req = rule.requirements[i];
+		if (req.completed.length >= req.required) {
+			completed++;
+		}
+	}
+	var ruleHTML = "";
+	ruleHTML += '<div class="rule ' + ((completed >= rule.required) ? 'completed' : 'incomplete') + '">';
+	{
+		ruleHTML += '<div class="box"></div>';
+		ruleHTML += '<h1>' + rule.label + '</h1>';
+		if (completed < rule.required) {
+			var remaining = rule.requirements.length - completed;
+			if (rule.requirements.length == 1) {
+				var req = rule.requirements[0];
+				remaining = (req.required - req.completed.length);
+				if (remaining > 0) {
+					ruleHTML += '<h2>(' + remaining + ' ' + ((remaining == 1) ? 'course' : 'courses') + ' remaining)</h2>';
+				}
+			} else if (remaining > 0) {
+				ruleHTML += '<h2>(' + remaining + ' ' + ((remaining == 1) ? 'group' : 'groups') + ' remaining)</h2>';
+			}
+		}
+	}
+	ruleHTML += '</div>';
+	if (completed < rule.required) {
+		ruleHTML += htmlForRequirements(student, rule.requirements);
+	}
+	return ruleHTML;
+}
+
+function htmlForRules(student, rules) {
+	var rulesHTML = "";
+	for (var j = 0; j < rules.length; j++) {
+		var rule = rules[j];
+		rulesHTML += htmlForRule(student, rule);
+	}
+	return rulesHTML;
+}
+
+function htmlForBlock(student, block) {
 	var blockHTML = '<div class="block">';
 	blockHTML += '<h1>' + block.title + '</h1>';
 	blockHTML += '<div id="courses" class="courses">';
-	blockHTML += htmlForCourses(block.courses);
+	blockHTML += htmlForRules(student, block.rules);
 	blockHTML += '</div>';
 	blockHTML += '</div>';
 	return blockHTML;
 }
 
-function htmlForBlocks(blocks) {
+function htmlForBlocks(student, blocks) {
 	var blocksHTML = "";
 	for (var i = 0; i < blocks.length; i++) {
-		blocksHTML += htmlForBlock(blocks[i]);
+		var block = blocks[i];
+		blocksHTML += htmlForBlock(student, block);
 	}
 	return blocksHTML;
 }
 
-function printBlocks(blocks) {
-	document.getElementById("blocks").innerHTML = htmlForBlocks(blocks);
+function htmlForStudent(student) {
+	var blocksHTML = "";
+	if ((student.terms != null) && (student.terms != undefined)) {
+		blocksHTML += htmlForBlocks(student, student.blocks);
+	}
+	return blocksHTML;
+}
+
+function printStudent(student) {
+	document.getElementById("blocks").innerHTML = htmlForStudent(student);
 }
 
 //
@@ -365,5 +470,5 @@ function get(key) {
 }
 
 var student = dataFor(uid);
-var blocks = blocksFor(student);
-printBlocks(blocks);
+processStudent(student);
+printStudent(student);
