@@ -96,14 +96,14 @@
 
 <body>
 	<nav>
-		<a href="/">Home</a>
+		<a href="/app" class="selected">Home</a>
 		<a href="/saveme">Instructions</a>
 		<a href="#" onclick="event.preventDefault();">Export</a>
 		<a href="/app?action=logout">Log Out</a>
 		<span id="user"></span>
-		<a class="info" href="#" onclick="event.preventDefault();"><img src="assets/vectors/info.svg"></a>
+		<a href="/faq" class="info"><img src="assets/vectors/info.svg"></a>
 	</nav>
-	<section>
+	<section class="flex">
 		<div id="cal"></div>
 		<div><div id="blocks"></div></div>
 	</section>

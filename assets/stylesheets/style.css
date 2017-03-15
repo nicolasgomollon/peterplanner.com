@@ -56,7 +56,8 @@ nav>a:first-child {
 	margin-left: 10pt;
 }
 
-nav>a:not(:last-child):hover {
+nav>a:hover,
+nav>a.selected {
 	background-color: #1d3c6d;
 }
 
@@ -73,6 +74,7 @@ nav>a.info {
 	right: 0;
 	height: 100%;
 	padding: 0 10px;
+	cursor: help;
 }
 
 nav>a.info>img {
@@ -84,7 +86,28 @@ nav>a.info>img {
 }
 
 section {
+	max-width: 500pt;
+	margin: 0 auto;
+	padding: 0 20pt;
+}
+
+section.flex {
 	display: flex;
+	max-width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+article {
+	margin: 30pt 0;
+}
+
+article * {
+	margin-bottom: 5pt;
+}
+
+article>ul>li {
+	margin-left: 15pt;
 }
 
 .wc-header {
@@ -381,6 +404,7 @@ div.course>*>div.place {
 	width: 140pt;
 	transition: all 0.5s;
 	margin: 0 25pt;
+	margin-bottom: 15pt;
 }
 
 .home .button span {
@@ -406,6 +430,11 @@ div.course>*>div.place {
 .home .button:hover span:after {
 	opacity: 1;
 	right: 0;
+}
+
+.home .link {
+	color: #0064a4;
+	margin-bottom: 15pt;
 }
 
 .github-corner svg {
