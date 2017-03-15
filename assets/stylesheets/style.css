@@ -391,7 +391,7 @@ div.course>*>div.place {
 
 .home .button {
 	display: inline-block;
-	border-radius: 6pt;
+	border-radius: 8pt;
 	background-color: #0064a4;
 	border: none;
 	color: #ffffff;
@@ -433,7 +433,19 @@ div.course>*>div.place {
 }
 
 .home .link {
-	color: #0064a4;
+	display: inline-block;
+	border-radius: 6pt;
+	background-color: #68a5fa;
+	border: none;
+	color: #ffffff;
+	text-decoration: none;
+	text-align: center;
+	font-weight: 500;
+	font-size: 12pt;
+	line-height: 1em;
+	padding: 6pt 12pt;
+	transition: all 0.5s;
+	margin: 0 25pt;
 	margin-bottom: 15pt;
 }
 
