@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Untitled Document</title>
+<link href="echo-caldata-download.php">
+<script src="assets/scripts/calendar-generator.js"></script>
+<script type="text/javascript">
+	function insertData() {
+		console.log(buildICSFileString(sampleCA, sampleSD, sampleED));//Take out when finished developing
+		document.getElementById('caldata').value = buildICSFileString(sampleCA, sampleSD, sampleED);
+	}
+</script>
+</head>
+
+<body>
+<form method="post" action="echo-caldata-download.php">
+  <input type="hidden" name="data" id="caldata" value="">
+  <input type="submit" value="Export" onClick="javascript:insertData()">
+</form>
+</body>
+</html>

@@ -2,7 +2,7 @@ function buildICSFileString(classArray, quarterStartDate, quarterEndDate) {
 	result = 'BEGIN:VCALENDAR\n';
 	for (var i = 0; i < classArray.length; i++) {
 		result += "BEGIN:VEVENT\n";
-		result += "RRULE:FREQ=WEEKLY;BYDAY=" + dayHelper(classArray[i].days) + "UNTIL=" + quarterEndDate + "\n";
+		result += "RRULE:FREQ=WEEKLY;BYDAY=" + dayHelper(classArray[i].days) + ";UNTIL=" + quarterEndDate + "\n";
 		result += "DTSTART:" + quarterStartDate + timeHelper(classArray[i].starttime) + "\n";
 		result += "DTSTART:" + quarterStartDate + timeHelper(classArray[i].endtime) + "\n";
 		result += "SUMMARY:" + classArray[i].title + "\n";
@@ -10,6 +10,7 @@ function buildICSFileString(classArray, quarterStartDate, quarterEndDate) {
 		result += "END:VEVENT\n";
 	}
 	result += "END:VCALENDAR\n";
+	return result;
 }
 
 function dayHelper(days) {
@@ -31,3 +32,7 @@ function timeHelper(time) {
 }
 
 //TODO: Handle time difference, if class is after 4PM, it needs to be the next day
+
+var sampleCA = [{'days': [2, 4], 'starttime': "0000-01-01T08:00:00Z", 'endtime': "0000-01-01T09:20:00Z", 'title': 'COMPSCI 121', 'building': 'PCB 1100'}];
+var sampleSD = "20170301";
+var sampleED = "20170301";
