@@ -61,6 +61,10 @@
 			<h2 id="who">Who is behind this?</h2>
 			<p>PeterPlanner was made by a small group of friends as part of a quarter-long project for In4matx 151 (Project Management). <a href="https://nicolas.gomollon.me/">Nicolas Gomollon</a> is the main person building the web app, with help from <a href="http://andrewmehta.com/">Andrew Mehta</a>, as well as contributors on the various GitHub repositories for this project (<a href="https://github.com/nicolasgomollon/peterplanner.com/graphs/contributors">peterplanner.com</a>, <a href="https://github.com/nicolasgomollon/peterplanner/graphs/contributors">peterplanner</a>, <a href="https://github.com/nicolasgomollon/peterplanner-download/graphs/contributors">peterplanner-download</a>, <a href="https://github.com/nicolasgomollon/peterplanner-parse/graphs/contributors">peterplanner-parse</a>).</p>
 		</article>
+		<article>
+			<h2 id="notupdated">Why aren&rsquo;t my classes updating?</h2>
+			<p>If you are currently taking classes and PeterPlanner does not reflect that, you might need to run <a href="https://peterplanner.com/saveme">the bookmarklet</a> again. Once run, the server will fetch a new copy of your profile with the updated data from DegreeWorks.</p>
+		</article>
 	</section>
 </body>
 </html>
