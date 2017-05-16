@@ -2,9 +2,9 @@ function buildICSFileString(classArray, quarterStartDate, quarterEndDate) {
 	result = 'BEGIN:VCALENDAR\n';
 	for (var i = 0; i < classArray.length; i++) {
 		result += "BEGIN:VEVENT\n";
-		result += "RRULE:FREQ=WEEKLY;BYDAY=" + dayHelper(classArray[i].days) + ";UNTIL=" + quarterEndDate + "\n";
+		result += "RRULE:FREQ=WEEKLY;BYDAY=" + dayHelper(classArray[i].days) + ";UNTIL=" + quarterEndDate + "T230000" + "\n";
 		result += "DTSTART:" + quarterStartDate + timeHelper(classArray[i].starttime) + "\n";
-		result += "DTSTART:" + quarterStartDate + timeHelper(classArray[i].endtime) + "\n";
+		result += "DTEND:" + quarterStartDate + timeHelper(classArray[i].endtime) + "\n";
 		result += "SUMMARY:" + classArray[i].title + "\n";
 		result += "LOCATION:" + classArray[i].building + "\n";
 		result += "END:VEVENT\n";
@@ -28,11 +28,9 @@ function timeHelper(time) {
 	if (month.length == 1) {
 		month = "0" + month;
 	}
-	return "T" + month + time.substring(14, 16) + "00Z";
+	return "T" + month + time.substring(14, 16) + "00-0800";
 }
 
-//TODO: Handle time difference, if class is after 4PM, it needs to be the next day
-
-var sampleCA = [{'days': [2, 4], 'starttime': "0000-01-01T08:00:00Z", 'endtime': "0000-01-01T09:20:00Z", 'title': 'COMPSCI 121', 'building': 'PCB 1100'}];
+var sampleCA = [{'days': [2, 4], 'starttime': "0000-01-01T08:00:00", 'endtime': "0000-01-01T09:20:00", 'title': 'COMPSCI 121', 'building': 'PCB 1100'}];
 var sampleSD = "20170301";
-var sampleED = "20170301";
+var sampleED = "20170401";
