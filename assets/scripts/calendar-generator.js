@@ -32,5 +32,5 @@ function timeHelper(time) {
 }
 
 var sampleCA = [{'days': [2, 4], 'starttime': "0000-01-01T08:00:00", 'endtime': "0000-01-01T09:20:00", 'title': 'COMPSCI 121', 'building': 'PCB 1100'}];
-var sampleSD = "20170301";
-var sampleED = "20170401";
+var sampleSD = "20170928";
+var sampleED = "20171208";

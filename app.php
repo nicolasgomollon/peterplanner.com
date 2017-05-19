@@ -24,6 +24,7 @@
 	<link rel="stylesheet" type="text/css" href="assets/stylesheets/style.css">
 	<link rel="stylesheet" type="text/css" href="assets/stylesheets/jquery-ui-1.12.1.min.css">
 	<link rel="stylesheet" type="text/css" href="assets/stylesheets/jquery-weekcalendar.css">
+	<link href="echo-caldata-download.php">
 	<!--[if IE]><script type="text/javascript" src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
 	<script type="text/javascript">
@@ -91,6 +92,17 @@
 			save(uid, selectedClasses);
 			return false;
 		}
+		function generateCalendarData() {
+			classArray = [];
+			for (var c in selectedClasses) {
+				classArray.push(generateCalendarClassData(classesDict[c]));
+			}
+			return classArray;
+		}
+		function downloadCalendar() {
+			document.getElementById('caldata').value = buildICSFileString(generateCalendarData(), sampleSD, sampleED);
+			document.forms[0].submit()
+		}
 	</script>
 </head>
 
@@ -98,7 +110,7 @@
 	<nav>
 		<a href="/app" class="selected">Home</a>
 		<a href="/saveme">Instructions</a>
-		<a href="#" onclick="event.preventDefault();">Export</a>
+		<a href="#" onclick="javascript:downloadCalendar()">Export</a>
 		<a href="/app?action=logout">Log Out</a>
 		<span id="user"></span>
 		<a href="/faq" class="info"><img src="assets/vectors/info.svg"></a>
@@ -112,6 +124,7 @@
 	<script type="text/javascript" src="assets/scripts/jquery-1.8.3.min.js"></script>
 	<script type="text/javascript" src="assets/scripts/jquery-ui-1.12.1.min.js"></script>
 	<script type="text/javascript" src="assets/scripts/jquery-weekcalendar.js"></script>
+	<script type="text/javascript" src="assets/scripts/calendar-generator.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$("#cal").weekCalendar({
@@ -158,5 +171,8 @@
 			}
 		});
 	</script>
+	<form method="post" action="echo-caldata-download.php">
+	  <input type="hidden" name="data" id="caldata" value="">
+	</form>
 </body>
 </html>
