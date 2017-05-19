@@ -92,6 +92,9 @@
 			save(uid, selectedClasses);
 			return false;
 		}
+		function generateCalendarClassData(c) { //c = Class object
+			return {'days': c.days, 'starttime': c.time['start'].slice(0, -1), 'endtime': c.time['end'].slice(0, -1), 'title': c.course.department + " " + c.course.number, 'building': c.place};
+		}
 		function generateCalendarData() {
 			classArray = [];
 			for (var c in selectedClasses) {
