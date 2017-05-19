@@ -25,7 +25,6 @@
 	<link rel="stylesheet" type="text/css" href="assets/stylesheets/jquery-ui-1.12.1.min.css">
 	<link rel="stylesheet" type="text/css" href="assets/stylesheets/jquery-weekcalendar.css">
 	<link href="echo-caldata-download.php">
-	<script type="text/javascript" src="assets/scripts/calendar-generator.js"></script>
 	<!--[if IE]><script type="text/javascript" src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
 	<script type="text/javascript">
@@ -125,6 +124,7 @@
 	<script type="text/javascript" src="assets/scripts/jquery-1.8.3.min.js"></script>
 	<script type="text/javascript" src="assets/scripts/jquery-ui-1.12.1.min.js"></script>
 	<script type="text/javascript" src="assets/scripts/jquery-weekcalendar.js"></script>
+	<script type="text/javascript" src="assets/scripts/calendar-generator.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$("#cal").weekCalendar({
