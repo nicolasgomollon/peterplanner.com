@@ -24,11 +24,11 @@ function dayHelper(days) {
 }
 
 function timeHelper(time) {
-	var month = String((Number(time.substring(11, 13)) + 8) % 24);
+	var month = time.substring(11, 13);
 	if (month.length == 1) {
 		month = "0" + month;
 	}
-	return "T" + month + time.substring(14, 16) + "00-0800";
+	return "T" + month + time.substring(14, 16);
 }
 
 var sampleCA = [{'days': [2, 4], 'starttime': "0000-01-01T08:00:00", 'endtime': "0000-01-01T09:20:00", 'title': 'COMPSCI 121', 'building': 'PCB 1100'}];

@@ -93,7 +93,7 @@
 			return false;
 		}
 		function generateCalendarClassData(c) { //c = Class object
-			return {'days': c.days, 'starttime': c.time['start'].slice(0, -1), 'endtime': c.time['end'].slice(0, -1), 'title': c.course.department + " " + c.course.number, 'building': c.place};
+			return {'days': c.days, 'starttime': c.time['start'].slice(0, -1), 'endtime': c.time['end'].slice(0, -1), 'title': c.course.department + " " + c.course.number + " " + c.type, 'building': c.place};
 		}
 		function generateCalendarData() {
 			classArray = [];
@@ -104,7 +104,7 @@
 		}
 		function downloadCalendar() {
 			document.getElementById('caldata').value = buildICSFileString(generateCalendarData(), sampleSD, sampleED);
-			document.forms[0].submit()
+			document.forms[0].submit();
 		}
 	</script>
 </head>
