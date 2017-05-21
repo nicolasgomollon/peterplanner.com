@@ -28,7 +28,7 @@ function timeHelper(time) {
 	if (month.length == 1) {
 		month = "0" + month;
 	}
-	return "T" + month + time.substring(14, 16);
+	return "T" + month + time.substring(14, 16) + "00";
 }
 
 var sampleCA = [{'days': [2, 4], 'starttime': "0000-01-01T08:00:00", 'endtime': "0000-01-01T09:20:00", 'title': 'COMPSCI 121', 'building': 'PCB 1100'}];
