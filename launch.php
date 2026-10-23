@@ -1,49 +1,69 @@
 <?php
-/*
-	ini_set('display_errors',1);
-	ini_set('display_startup_errors',1);
-	error_reporting(-1);
-*/
+	declare(strict_types=1);
+	
+	require_once __DIR__ . '/.internal/api-client.php';
 	
 	header("Access-Control-Allow-Origin: *");
 	header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 	
-	$old_path = getcwd();
-	chdir("/var/www/golang/bin/");
-	
 	$output = "{}";
 	$outputJSON = isset($_GET['json']);
-	if (isset($_GET['cookie'])) {
-		$cookie = $_GET['cookie'];
-		$cookie = str_replace("!", "\!", $cookie);
-		$output = shell_exec("./peterplanner --cookie \"".$cookie."\"".($outputJSON ? " --json" : ""));
-	} else if (isset($_GET['uid'])) {
-		$uid = $_GET['uid'];
-		$output = shell_exec("./peterplanner --uid \"".$uid."\" --json");
-	} else if (isset($_GET['studentID'])) {
-		$studentID = $_GET['studentID'];
-		$output = shell_exec("./peterplanner --studentID \"".$studentID."\"".($outputJSON ? " --json" : ""));
-	}
 	
-	chdir($old_path);
-	
-	if (strpos($output, "No flags were specified.") !== false) {
-		header("Location: /saveme");
-		die();
-	} else if (isset($_GET['cookie'])) {
-		$result = json_decode($output, true);
-		$uid = $result["uid"];
-		$days = 30 * 4;
-		setcookie("uid", $uid, time() + ($days * 24 * 60 * 60));
-		header("Location: /app");
-		die();
-	} else {
-		// TODO: Determine if output contains some error about cookies, and alert the user.
-		if ($outputJSON || isset($_GET['uid'])) {
-			header("Content-Type: application/json");
+	try {
+		if (isset($_GET['cookie'])) {
+			$cookie = $_GET['cookie'];
+			
+			$output = peterplannerRequest('cookie', $cookie, $outputJSON);
+			
+		} else if (isset($_GET['uid'])) {
+			$uid = $_GET['uid'];
+			
+			$output = peterplannerRequest('uid', $uid, true);
+			
+		} else if (isset($_GET['studentID'])) {
+			$studentID = $_GET['studentID'];
+			
+			$output = peterplannerRequest('studentID', $studentID, $outputJSON);
+			
 		} else {
-			header("Content-Type: text/plain");
+			header("Location: /saveme");
+			exit;
 		}
-		echo $output;
+		
+		if (strpos($output, "No flags were specified.") !== false) {
+			header("Location: /saveme");
+			exit;
+			
+		} else if (isset($_GET['cookie'])) {
+			$result = json_decode($output, true);
+			$uid = $result['uid'] ?? null;
+			
+			if (!is_string($uid) || strlen($uid) != 40) {
+				throw new RuntimeException('Invalid UID response');
+			}
+			
+			$days = 30 * 4;
+			setcookie("uid", $uid, time() + ($days * 24 * 60 * 60), "/");
+			
+			header("Location: /app");
+			exit;
+			
+		} else {
+			if ($outputJSON || isset($_GET['uid'])) {
+				header("Content-Type: application/json");
+			} else {
+				header("Content-Type: text/plain");
+			}
+			
+			echo $output;
+		}
+		
+	} catch (Throwable $error) {
+		error_log("PeterPlanner API failure: " . $error->getMessage());
+		
+		http_response_code(502);
+		header("Content-Type: text/plain");
+		
+		echo "PeterPlanner is temporarily unavailable.";
 	}
 ?>
